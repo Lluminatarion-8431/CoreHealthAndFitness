@@ -7,5 +7,6 @@ namespace Core_Health_and_Fitness.Models
 {
     public class Client
     {
+
     }
 }
