@@ -39,5 +39,7 @@ namespace Core_Health_and_Fitness.Models
         [ForeignKey("Client")]
         public int ClientId { get; set; }
         public Client Client { get; set; }
+
+
     }
 }
