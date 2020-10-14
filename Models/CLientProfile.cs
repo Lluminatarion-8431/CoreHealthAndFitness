@@ -24,8 +24,10 @@ namespace Core_Health_and_Fitness.Models
 
         [Display(Name = "Medical Provider")]
         public string MedicalProvider { get; set; }
+
         [Display(Name = "Past Injuries")]
         public string MedicalHistory { get; set; }
+
         [Display(Name = "Fitness Goal")]
         public string FitnessGoal { get; set; }
 
