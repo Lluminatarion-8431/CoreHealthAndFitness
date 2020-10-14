@@ -12,6 +12,9 @@ using Core_Health_and_Fitness.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
+using Core_Health_and_Fitness.ActionFilters;
 
 namespace Core_Health_and_Fitness
 {
@@ -35,6 +38,14 @@ namespace Core_Health_and_Fitness
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
+
+            services.AddScoped<ClaimsPrincipal>(s =>
+                   s.GetService<IHttpContextAccessor>().HttpContext.User);
+            services.AddControllers(config =>
+            {
+                config.Filters.Add(typeof(GlobalRouting));
+            });
+
 
             services.AddControllersWithViews();
             services.AddRazorPages();
