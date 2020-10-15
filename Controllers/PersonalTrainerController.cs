@@ -4,9 +4,11 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Core_Health_and_Fitness.Data;
+using Core_Health_and_Fitness.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace Core_Health_and_Fitness.Controllers
@@ -27,36 +29,61 @@ namespace Core_Health_and_Fitness.Controllers
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-            var employeeLoggedIn = _context.PersonalTrainers.Where(e => e.IdentityUserId == userId).SingleOrDefault();
+            var personalTrainerLoggedIn = _context.PersonalTrainers.Where(e => e.IdentityUserId == userId).SingleOrDefault();
 
-            return View();
+            if (personalTrainerLoggedIn == null)
+            {
+                return RedirectToAction("Create");
+            }
+
+            else
+            {
+                return View(personalTrainerLoggedIn);
+            }
         }
 
         // GET: PersonalTrainerController/Details/5
-        public ActionResult Details(int id)
+        public async Task<IActionResult> Details(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var personalTrainer = await _context.PersonalTrainers
+                .Include(e => e.IdentityUser)
+                .FirstOrDefaultAsync(m => m.PersonalTrainerId == id);
+            if (personalTrainer == null)
+            {
+                return NotFound();
+            }
+
+            return View(personalTrainer);
         }
 
         // GET: PersonalTrainerController/Create
-        public ActionResult Create()
+        public IActionResult Create()
         {
-            return View();
+            PersonalTrainer personalTrainer = new PersonalTrainer();
+            return View(personalTrainer);
         }
 
         // POST: PersonalTrainerController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Create([Bind("PersonalTrainerId,FirstName,LastName,AddressLine,State,ZipCode,Lat,Long,IdentityUserId")] PersonalTrainer personalTrainer)
         {
-            try
+            if (ModelState.IsValid)
             {
-                return RedirectToAction(nameof(Index));
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                personalTrainer.IdentityUserId = userId;
+
+                _context.Add(personalTrainer);
+                await _context.SaveChangesAsync();
+                return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", personalTrainer.IdentityUserId);
+            return View("Index", personalTrainer);
         }
 
         // GET: PersonalTrainerController/Edit/5
