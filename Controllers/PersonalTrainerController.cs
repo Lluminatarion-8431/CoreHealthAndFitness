@@ -87,45 +87,89 @@ namespace Core_Health_and_Fitness.Controllers
         }
 
         // GET: PersonalTrainerController/Edit/5
-        public ActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var personalTrainer = await _context.PersonalTrainers.FindAsync(id);
+            if (personalTrainer == null)
+            {
+                return NotFound();
+            }
+            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", personalTrainer.IdentityUserId);
+            return View(personalTrainer);
         }
 
         // POST: PersonalTrainerController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> Edit(int id, [Bind("PersonalTrainerId,FirstName,LastName,AddressLine,State,ZipCode,Lat,Long,IdentityUserId")] PersonalTrainer personalTrainer)
         {
-            try
+            if (id != personalTrainer.PersonalTrainerId)
             {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    personalTrainer.IdentityUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    _context.Update(personalTrainer);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!PersonalTrainerExists(personalTrainer.PersonalTrainerId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            return View(personalTrainer);
         }
 
         // GET: PersonalTrainerController/Delete/5
-        public ActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var personalTrainer = await _context.PersonalTrainers
+                .Include(e => e.IdentityUser)
+                .FirstOrDefaultAsync(m => m.PersonalTrainerId == id);
+            if (personalTrainer == null)
+            {
+                return NotFound();
+            }
+
+            return View(personalTrainer);
         }
 
         // POST: PersonalTrainerController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var personalTrainer = await _context.PersonalTrainers.FindAsync(id);
+            _context.PersonalTrainers.Remove(personalTrainer);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool PersonalTrainerExists(int id)
+        {
+            return _context.PersonalTrainers.Any(e => e.PersonalTrainerId == id);
         }
     }
 }
