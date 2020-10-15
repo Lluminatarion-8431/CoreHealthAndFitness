@@ -5,12 +5,15 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Core_Health_and_Fitness.Data;
 using Core_Health_and_Fitness.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 
 namespace Core_Health_and_Fitness.Controllers
 {
+    [Authorize(Roles = "Client")]
     public class ClientController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -96,6 +99,17 @@ namespace Core_Health_and_Fitness.Controllers
             }
             if (ModelState.IsValid)
             {
+                //try
+                //{
+                //    _context.Update(client);
+                //    _context.SaveChanges();
+                //    return RedirectToAction("Details", client);
+                //}
+                //catch
+                //{
+                //    return RedirectToAction("Index");
+
+                //}
                 try
                 {
                     var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -119,31 +133,45 @@ namespace Core_Health_and_Fitness.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Details", client);
             }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", customer.IdentityUserId);
-            return View(customer);
+            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", client.IdentityUserId);
+            return View(client);
         }
 
         // GET: ClientController/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var deletedClient = _context.Clients.Where(c => c.ClientId == id).FirstOrDefault();
+            _context.Clients.Remove(deletedClient);
+            _context.SaveChanges();
+            if (deletedClient == null)
+            {
+                return NotFound();
+            }
+
+            return View(deletedClient);
         }
 
         // POST: ClientController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            var client = await _context.Clients.FindAsync(id);
+            _context.Clients.Remove(client);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool ClientExists(int id)
+        {
+            return _context.Clients.Any(e => e.ClientId == id);
         }
     }
 }

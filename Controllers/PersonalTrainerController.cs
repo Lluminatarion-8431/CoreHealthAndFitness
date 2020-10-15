@@ -1,17 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Core_Health_and_Fitness.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Core_Health_and_Fitness.Controllers
 {
+    [Authorize(Roles = "PersonalTrainers")]
     public class PersonalTrainerController : Controller
     {
+        private readonly ApplicationDbContext _context;
+
+        public PersonalTrainerController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
         // GET: PersonalTrainerController
         public ActionResult Index()
         {
+            var applicationDbContext = _context.PersonalTrainers.Include(e => e.IdentityUser);
+
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var employeeLoggedIn = _context.PersonalTrainers.Where(e => e.IdentityUserId == userId).SingleOrDefault();
+
             return View();
         }
 
