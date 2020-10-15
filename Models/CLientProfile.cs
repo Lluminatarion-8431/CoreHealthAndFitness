@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Core_Health_and_Fitness.Models
 {
-    public class CLientProfile
+    public class ClientProfile
     {
         [Key]
         public int ClientProfileId { get; set; }

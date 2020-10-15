@@ -126,15 +126,15 @@ namespace Core_Health_and_Fitness.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "2bd0f36c-9315-4d63-9a40-84e4f1e14c40",
-                            ConcurrencyStamp = "8bffcb3d-1f28-42f2-ae7c-80bbed5f1b0a",
+                            Id = "f03465d9-1818-44f4-a441-db9092426212",
+                            ConcurrencyStamp = "75b30eee-ee74-4206-a8ed-2b45f8cc2e45",
                             Name = "Client",
                             NormalizedName = "CLIENT"
                         },
                         new
                         {
-                            Id = "c613a272-00c4-40bd-866a-7988b48d4e36",
-                            ConcurrencyStamp = "1ecbdb0d-6744-4d4c-9155-2fed8e9d3f98",
+                            Id = "1289e619-f784-4eee-9ffa-6c82d5820b06",
+                            ConcurrencyStamp = "1925a772-c508-4c1f-beda-fda09a86af21",
                             Name = "PersonalTrainer",
                             NormalizedName = "PERSONALTRAINER"
                         });
