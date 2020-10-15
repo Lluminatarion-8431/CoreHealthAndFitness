@@ -56,43 +56,73 @@ namespace Core_Health_and_Fitness.Controllers
         // GET: ClientController/Create
         public ActionResult Create()
         {
-            return View();
+            Client client = new Client();
+            return View(client);
         }
 
         // POST: ClientController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
+        public async Task<IActionResult> Create([Bind("ClientId,FirstName,LastName,StreetAddress,ZipCode,City,State,IdentityUserId")] Client client)
         {
-            try
+            if (ModelState.IsValid)
             {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                client.IdentityUserId = userId;
+
+                _context.Add(client);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            return View(client);
         }
 
         // GET: ClientController/Edit/5
         public ActionResult Edit(int id)
         {
-            return View();
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            Client client = _context.Clients.Where(c => c.IdentityUserId == userId).Single();
+            return View(client);
         }
 
         // POST: ClientController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public async Task<IActionResult> Edit(int id, [Bind("ClientId,FirstName,LastName,StreetAddress,ZipCode,City,State,IdentityUserId")] Client client)
         {
-            try
+            if (id != client.ClientId)
             {
+                return NotFound();
+            }
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                    Client clientFromDb = _context.Clients.Where(c => c.IdentityUserId == userId).Single();
+                    clientFromDb.FirstName = client.FirstName;
+                    clientFromDb.LastName = client.LastName;
+                    clientFromDb.StreetAddress = client.StreetAddress;
+                    clientFromDb.ZipCode = client.ZipCode;
+                    clientFromDb.City = client.City;
+                    clientFromDb.State = client.State;
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!ClientExists(client.ClientId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", customer.IdentityUserId);
+            return View(customer);
         }
 
         // GET: ClientController/Delete/5

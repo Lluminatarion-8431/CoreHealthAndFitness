@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Core_Health_and_Fitness.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201015143219_CHAF")]
+    [Migration("20201015154138_CHAF")]
     partial class CHAF
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -28,25 +28,25 @@ namespace Core_Health_and_Fitness.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("IdentityUserId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("city")
+                    b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("firstName")
+                    b.Property<string>("State")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("lastName")
+                    b.Property<string>("StreetAddress")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("state")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("streetAddress")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("zipCode")
+                    b.Property<int>("ZipCode")
                         .HasColumnType("int");
 
                     b.HasKey("ClientId");
@@ -128,15 +128,15 @@ namespace Core_Health_and_Fitness.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f03465d9-1818-44f4-a441-db9092426212",
-                            ConcurrencyStamp = "75b30eee-ee74-4206-a8ed-2b45f8cc2e45",
+                            Id = "8fb9c4f3-3fec-4153-b354-bf1ad3e109c8",
+                            ConcurrencyStamp = "6b8d6257-5075-4f2c-bc19-9c3a9281008f",
                             Name = "Client",
                             NormalizedName = "CLIENT"
                         },
                         new
                         {
-                            Id = "1289e619-f784-4eee-9ffa-6c82d5820b06",
-                            ConcurrencyStamp = "1925a772-c508-4c1f-beda-fda09a86af21",
+                            Id = "f1684aea-3055-4317-b8b9-caa05739bfc3",
+                            ConcurrencyStamp = "382e6913-af83-40b4-8387-dcd3ccd99dfb",
                             Name = "PersonalTrainer",
                             NormalizedName = "PERSONALTRAINER"
                         });

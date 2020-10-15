@@ -14,22 +14,22 @@ namespace Core_Health_and_Fitness.Models
         public int ClientId { get; set; }
 
         [Display(Name = "First Name")]
-        public string firstName { get; set; }
+        public string FirstName { get; set; }
 
         [Display(Name = "Last Name")]
-        public string lastName { get; set; }
+        public string LastName { get; set; }
 
         [Display(Name = "Street Address")]
-        public string streetAddress { get; set; }
+        public string StreetAddress { get; set; }
 
         [Display(Name = "Zip Code")]
-        public int zipCode { get; set; }
+        public int ZipCode { get; set; }
 
         [Display(Name = "City")]
-        public string city { get; set; }
+        public string City { get; set; }
 
         [Display(Name = "State")]
-        public string state { get; set; }
+        public string State { get; set; }
 
         [ForeignKey("IdentityUser")]
         public string IdentityUserId { get; set; }
