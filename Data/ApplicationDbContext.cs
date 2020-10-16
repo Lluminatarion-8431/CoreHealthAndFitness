@@ -35,5 +35,8 @@ namespace Core_Health_and_Fitness.Data
 
         public DbSet<Client> Clients { get; set; }
         public DbSet<PersonalTrainer> PersonalTrainers { get; set; }
+        public DbSet<Core_Health_and_Fitness.Models.WorkoutSchedule> WorkoutSchedule { get; set; }
+        public DbSet<Core_Health_and_Fitness.Models.DietPlan> DietPlan { get; set; }
+        public DbSet<Core_Health_and_Fitness.Models.ClientProfile> ClientProfile { get; set; }
     }
 }

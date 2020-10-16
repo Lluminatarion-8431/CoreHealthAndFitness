@@ -13,7 +13,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Core_Health_and_Fitness.Controllers
 {
-    [Authorize(Roles = "PersonalTrainers")]
+    [Authorize(Roles = "PersonalTrainer")]
     public class PersonalTrainerController : Controller
     {
         private readonly ApplicationDbContext _context;
