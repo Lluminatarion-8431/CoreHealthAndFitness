@@ -1,48 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using Core_Health_and_Fitness.Data;
-using Core_Health_and_Fitness.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Core_Health_and_Fitness.Data;
+using Core_Health_and_Fitness.Models;
 
 namespace Core_Health_and_Fitness.Controllers
 {
-    [Authorize(Roles = "PersonalTrainer")]
-    public class PersonalTrainerController : Controller
+    public class PersonalTrainersController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public PersonalTrainerController(ApplicationDbContext context)
+        public PersonalTrainersController(ApplicationDbContext context)
         {
             _context = context;
         }
-        // GET: PersonalTrainerController
-        public ActionResult Index()
+
+        // GET: PersonalTrainers
+        public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.PersonalTrainers.Include(e => e.IdentityUser);
-
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var personalTrainerLoggedIn = _context.PersonalTrainers.Where(e => e.IdentityUserId == userId).SingleOrDefault();
-
-            if (personalTrainerLoggedIn == null)
-            {
-                return RedirectToAction("Create");
-            }
-
-            else
-            {
-                return View(personalTrainerLoggedIn);
-            }
+            var applicationDbContext = _context.PersonalTrainers.Include(p => p.Client).Include(p => p.IdentityUser);
+            return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: PersonalTrainerController/Details/5
+        // GET: PersonalTrainers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -51,7 +35,8 @@ namespace Core_Health_and_Fitness.Controllers
             }
 
             var personalTrainer = await _context.PersonalTrainers
-                .Include(e => e.IdentityUser)
+                .Include(p => p.Client)
+                .Include(p => p.IdentityUser)
                 .FirstOrDefaultAsync(m => m.PersonalTrainerId == id);
             if (personalTrainer == null)
             {
@@ -61,32 +46,33 @@ namespace Core_Health_and_Fitness.Controllers
             return View(personalTrainer);
         }
 
-        // GET: PersonalTrainerController/Create
+        // GET: PersonalTrainers/Create
         public IActionResult Create()
         {
-            PersonalTrainer personalTrainer = new PersonalTrainer();
-            return View(personalTrainer);
+            ViewData["ClientId"] = new SelectList(_context.Clients, "ClientId", "ClientId");
+            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
+            return View();
         }
 
-        // POST: PersonalTrainerController/Create
+        // POST: PersonalTrainers/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PersonalTrainerId,FirstName,LastName,AddressLine,State,ZipCode,Lat,Long,IdentityUserId")] PersonalTrainer personalTrainer)
+        public async Task<IActionResult> Create([Bind("PersonalTrainerId,FirstName,LastName,AddressLine,State,ZipCode,Lat,Long,IdentityUserId,ClientId")] PersonalTrainer personalTrainer)
         {
             if (ModelState.IsValid)
             {
-                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                personalTrainer.IdentityUserId = userId;
-
                 _context.Add(personalTrainer);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                return RedirectToAction(nameof(Index));
             }
+            ViewData["ClientId"] = new SelectList(_context.Clients, "ClientId", "ClientId", personalTrainer.ClientId);
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", personalTrainer.IdentityUserId);
-            return View("Index", personalTrainer);
+            return View(personalTrainer);
         }
 
-        // GET: PersonalTrainerController/Edit/5
+        // GET: PersonalTrainers/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -99,14 +85,17 @@ namespace Core_Health_and_Fitness.Controllers
             {
                 return NotFound();
             }
+            ViewData["ClientId"] = new SelectList(_context.Clients, "ClientId", "ClientId", personalTrainer.ClientId);
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", personalTrainer.IdentityUserId);
             return View(personalTrainer);
         }
 
-        // POST: PersonalTrainerController/Edit/5
+        // POST: PersonalTrainers/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PersonalTrainerId,FirstName,LastName,AddressLine,State,ZipCode,Lat,Long,IdentityUserId")] PersonalTrainer personalTrainer)
+        public async Task<IActionResult> Edit(int id, [Bind("PersonalTrainerId,FirstName,LastName,AddressLine,State,ZipCode,Lat,Long,IdentityUserId,ClientId")] PersonalTrainer personalTrainer)
         {
             if (id != personalTrainer.PersonalTrainerId)
             {
@@ -117,7 +106,6 @@ namespace Core_Health_and_Fitness.Controllers
             {
                 try
                 {
-                    personalTrainer.IdentityUserId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                     _context.Update(personalTrainer);
                     await _context.SaveChangesAsync();
                 }
@@ -134,10 +122,12 @@ namespace Core_Health_and_Fitness.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ClientId"] = new SelectList(_context.Clients, "ClientId", "ClientId", personalTrainer.ClientId);
+            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", personalTrainer.IdentityUserId);
             return View(personalTrainer);
         }
 
-        // GET: PersonalTrainerController/Delete/5
+        // GET: PersonalTrainers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -146,7 +136,8 @@ namespace Core_Health_and_Fitness.Controllers
             }
 
             var personalTrainer = await _context.PersonalTrainers
-                .Include(e => e.IdentityUser)
+                .Include(p => p.Client)
+                .Include(p => p.IdentityUser)
                 .FirstOrDefaultAsync(m => m.PersonalTrainerId == id);
             if (personalTrainer == null)
             {
@@ -156,8 +147,8 @@ namespace Core_Health_and_Fitness.Controllers
             return View(personalTrainer);
         }
 
-        // POST: PersonalTrainerController/Delete/5
-        [HttpPost]
+        // POST: PersonalTrainers/Delete/5
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
