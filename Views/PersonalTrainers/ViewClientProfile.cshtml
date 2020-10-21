@@ -1,0 +1,78 @@
+﻿@model IEnumerable<Core_Health_and_Fitness.Models.ClientProfile>
+
+@{
+    ViewData["Title"] = "ViewClientProfile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>ViewClientProfile</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Age)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Height)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Weight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MedicalProvider)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MedicalHistory)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FitnessGoal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Client)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdentityUser)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Age)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Height)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Weight)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MedicalProvider)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MedicalHistory)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FitnessGoal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Client.ClientId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdentityUser.Id)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.ClientProfileId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.ClientProfileId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.ClientProfileId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

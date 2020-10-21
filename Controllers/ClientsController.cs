@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Core_Health_and_Fitness.Data;
 using Core_Health_and_Fitness.Models;
+using System.Security.Claims;
 
 namespace Core_Health_and_Fitness.Controllers
 {
@@ -34,15 +35,15 @@ namespace Core_Health_and_Fitness.Controllers
                 return NotFound();
             }
 
-            var client = await _context.Clients
-                .Include(c => c.IdentityUser)
-                .FirstOrDefaultAsync(m => m.ClientId == id);
-            if (client == null)
+            var PersonalTrainers = await _context.PersonalTrainers
+                 .Include(c => c.IdentityUser)
+                 .FirstOrDefaultAsync(m => m.PersonalTrainerId == id);
+            if (PersonalTrainers == null)
             {
                 return NotFound();
             }
 
-            return View(client);
+            return View(PersonalTrainers);
         }
 
         // GET: Clients/Create
@@ -61,6 +62,9 @@ namespace Core_Health_and_Fitness.Controllers
         {
             if (ModelState.IsValid)
             {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                client.IdentityUserId = userId;
+
                 _context.Add(client);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -156,5 +160,14 @@ namespace Core_Health_and_Fitness.Controllers
         {
             return _context.Clients.Any(e => e.ClientId == id);
         }
+
+        public async Task<IActionResult> PersonalTrainersList()
+        {
+            var personalTrainersList = await _context.PersonalTrainers.ToListAsync();
+
+            return View(personalTrainersList);
+        }
+
+        
     }
 }

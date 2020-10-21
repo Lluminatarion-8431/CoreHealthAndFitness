@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Core_Health_and_Fitness.Data;
 using Core_Health_and_Fitness.Models;
+using System.Security.Claims;
 
 namespace Core_Health_and_Fitness.Controllers
 {
@@ -63,6 +64,9 @@ namespace Core_Health_and_Fitness.Controllers
         {
             if (ModelState.IsValid)
             {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                personalTrainer.IdentityUserId = userId;
+
                 _context.Add(personalTrainer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -161,6 +165,85 @@ namespace Core_Health_and_Fitness.Controllers
         private bool PersonalTrainerExists(int id)
         {
             return _context.PersonalTrainers.Any(e => e.PersonalTrainerId == id);
+        }
+
+        [HttpGet]
+        public IActionResult CreateWorkoutSchedule()
+        {
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateWorkoutSchedule([Bind("ScheduleID,Monday,Tuesday,Wednsday,Thursday,Friday,Saturday,Sunday,IdentityUserId,ClientId")] WorkoutSchedule workoutSchedule)
+        {
+            if (ModelState.IsValid)
+            {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                //personalTrainer.IdentityUserId = userId;
+                var personalTrainer = _context.PersonalTrainers.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+
+                _context.WorkoutSchedule.Add(workoutSchedule);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View("Index");
+        }
+
+        // GET: WorkoutSchedule/Edit/5
+        public async Task<IActionResult> EditWorkoutSchedule(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var workoutSchedule = await _context.WorkoutSchedule.FindAsync(id);
+            if (workoutSchedule == null)
+            {
+                return NotFound();
+            }
+            ViewData["ClientId"] = new SelectList(_context.Clients, "ClientId", "ClientId", workoutSchedule.ClientId);
+            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", workoutSchedule.IdentityUserId);
+            return View(workoutSchedule);
+        }
+
+        // POST: WorkoutSchedule/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditWorkoutSchedule(int id, [Bind("ScheduleID,Monday,Tuesday,Wednsday,Thursday,Friday,Saturday,Sunday,IdentityUserId,ClientId")] WorkoutSchedule workoutSchedule)
+        {
+            if (id != workoutSchedule.ScheduleID)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(workoutSchedule);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!PersonalTrainerExists(workoutSchedule.ScheduleID))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["ClientId"] = new SelectList(_context.Clients, "ClientId", "ClientId", workoutSchedule.ClientId);
+            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", workoutSchedule.IdentityUserId);
+            return View(workoutSchedule);
         }
     }
 }
