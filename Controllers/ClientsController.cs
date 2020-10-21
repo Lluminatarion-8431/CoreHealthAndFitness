@@ -199,5 +199,19 @@ namespace Core_Health_and_Fitness.Controllers
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", clientProfile.IdentityUserId);
             return View(clientProfile);
         }
+
+        public async Task<IActionResult> ViewDietPlan()
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var applicationDbContext = _context.DietPlan.Include(p => p.Client).Include(p => p.IdentityUser);
+            return View(await applicationDbContext.ToListAsync());
+        }
+
+        public async Task<IActionResult> ViewWorkoutSchedule()
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var applicationDbContext = _context.WorkoutSchedule.Include(p => p.Client).Include(p => p.IdentityUser);
+            return View(await applicationDbContext.ToListAsync());
+        }
     }
 }
