@@ -168,6 +168,36 @@ namespace Core_Health_and_Fitness.Controllers
             return View(personalTrainersList);
         }
 
-        
+        [HttpGet]
+        public IActionResult CreateDietPlan()
+        {
+
+            return View();
+        }
+
+        // POST: DietPlan/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateClientProfile([Bind("ClientProfileId,Age,Height,Weight,MedicalProvider,MedicalHistory,FitnessGoal,ClientId,IdentityUserId")] ClientProfile clientProfile)
+        {
+            if (ModelState.IsValid)
+            {
+                //personalTrainer.IdentityUserId = userId;
+
+
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                clientProfile.IdentityUserId = userId;
+                var client = _context.Clients.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+
+                _context.Add(clientProfile);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["ClientId"] = new SelectList(_context.Clients, "ClientId", "ClientId", clientProfile.ClientId);
+            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", clientProfile.IdentityUserId);
+            return View(clientProfile);
+        }
     }
 }
