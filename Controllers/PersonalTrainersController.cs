@@ -49,8 +49,8 @@ namespace Core_Health_and_Fitness.Controllers
         // GET: PersonalTrainers/Create
         public IActionResult Create()
         {
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
-            return View();
+            PersonalTrainer personalTrainer = new PersonalTrainer();
+            return View(personalTrainer);
         }
 
         // POST: PersonalTrainers/Create
@@ -161,11 +161,15 @@ namespace Core_Health_and_Fitness.Controllers
             return _context.PersonalTrainers.Any(e => e.PersonalTrainerId == id);
         }
 
+        private bool WorkoutScheduleExists(int id)
+        {
+            return _context.WorkoutSchedule.Any(e => e.ScheduleID == id);
+        }
         [HttpGet]
         public IActionResult CreateWorkoutSchedule()
         {
-
-            return View();
+            WorkoutSchedule workoutSchedule = new WorkoutSchedule();
+            return View(workoutSchedule);
         }
 
         [HttpPost]
@@ -176,7 +180,7 @@ namespace Core_Health_and_Fitness.Controllers
             {
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 workoutSchedule.IdentityUserId = userId;
-                var personalTrainer = _context.PersonalTrainers.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+                var personalTrainer = _context.WorkoutSchedule.Where(c => c.IdentityUserId == userId).SingleOrDefault();
 
                 _context.WorkoutSchedule.Add(workoutSchedule);
                 await _context.SaveChangesAsync();
@@ -223,7 +227,7 @@ namespace Core_Health_and_Fitness.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!PersonalTrainerExists(workoutSchedule.ScheduleID))
+                    if (!WorkoutScheduleExists(workoutSchedule.ScheduleID))
                     {
                         return NotFound();
                     }
@@ -253,8 +257,8 @@ namespace Core_Health_and_Fitness.Controllers
         [HttpGet]
         public IActionResult CreateDietPlan()
         {
-
-            return View();
+            DietPlan dietPlan = new DietPlan();
+            return View(dietPlan);
         }
 
         // POST: DietPlan/Create
@@ -271,7 +275,8 @@ namespace Core_Health_and_Fitness.Controllers
 
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 dietPlan.IdentityUserId = userId;
-                var personalTrainer = _context.PersonalTrainers.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+
+                var personalTrainer = _context.DietPlan.Where(c => c.IdentityUserId == userId).SingleOrDefault();
 
                 _context.Add(dietPlan);
                 await _context.SaveChangesAsync();

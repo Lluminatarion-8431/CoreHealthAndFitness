@@ -50,8 +50,8 @@ namespace Core_Health_and_Fitness.Controllers
         // GET: Clients/Create
         public IActionResult Create()
         {
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
-            return View();
+            Client client = new Client();
+            return View(client);
         }
 
         // POST: Clients/Create
@@ -170,10 +170,10 @@ namespace Core_Health_and_Fitness.Controllers
         }
 
         [HttpGet]
-        public IActionResult CreateDietPlan()
+        public IActionResult CreateClientProfile()
         {
-
-            return View();
+            ClientProfile clientProfile = new ClientProfile();
+            return View(clientProfile);
         }
 
         // POST: DietPlan/Create
@@ -190,7 +190,7 @@ namespace Core_Health_and_Fitness.Controllers
 
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 clientProfile.IdentityUserId = userId;
-                var client = _context.Clients.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+                var client = _context.ClientProfile.Where(c => c.IdentityUserId == userId).SingleOrDefault();
 
                 _context.Add(clientProfile);
                 await _context.SaveChangesAsync();
