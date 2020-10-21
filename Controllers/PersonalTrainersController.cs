@@ -181,7 +181,7 @@ namespace Core_Health_and_Fitness.Controllers
             if (ModelState.IsValid)
             {
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                //personalTrainer.IdentityUserId = userId;
+                workoutSchedule.IdentityUserId = userId;
                 var personalTrainer = _context.PersonalTrainers.Where(c => c.IdentityUserId == userId).SingleOrDefault();
 
                 _context.WorkoutSchedule.Add(workoutSchedule);
@@ -257,6 +257,38 @@ namespace Core_Health_and_Fitness.Controllers
 
 
             //return View(clientProfile);
+        }
+
+        [HttpGet]
+        public IActionResult CreateDietPlan()
+        {
+
+            return View();
+        }
+
+        // POST: DietPlan/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> CreateDietPlan([Bind("DietPlanID,CaloricIntake,Protein,Carbohydrates,Fat,IdentityUserId,ClientId")] DietPlan dietPlan)
+        {
+            if (ModelState.IsValid)
+            {
+                //personalTrainer.IdentityUserId = userId;
+                
+
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                dietPlan.IdentityUserId = userId;
+                var personalTrainer = _context.PersonalTrainers.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+
+                _context.Add(dietPlan);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["ClientId"] = new SelectList(_context.Clients, "ClientId", "ClientId", dietPlan.ClientId);
+            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", dietPlan.IdentityUserId);
+            return View(dietPlan);
         }
     }
 }
