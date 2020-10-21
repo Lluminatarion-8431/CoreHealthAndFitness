@@ -30,13 +30,13 @@
 <br />
 <div>
     <form asp-action="Index">
+        <button type="submit" class="btn btn-outline-info">Index</button>
+    </form>
+    <br />
+    <form asp-action="PersonalTrainers" method="get">
         <button type="submit" class="btn btn-outline-info">Back to All Trainers</button>
     </form>
     <br />
-    @*<form asp-action="Filter" method="get">
-        <button type="submit" class="btn btn-outline-info">Back to All Trainers</button>
-    </form>
-    <br />*@
 </div>
 <br />
 <div id="map" style="width:100%; height:400px"></div>
