@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Core_Health_and_Fitness.Data;
 using Core_Health_and_Fitness.Models;
 using System.Security.Claims;
+using GoogleMaps.LocationServices;
 
 namespace Core_Health_and_Fitness.Controllers
 {
@@ -212,6 +213,25 @@ namespace Core_Health_and_Fitness.Controllers
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var applicationDbContext = _context.WorkoutSchedule.Include(p => p.Client).Include(p => p.IdentityUser);
             return View(await applicationDbContext.ToListAsync());
+        }
+
+        public ActionResult Map(int id)
+        {
+
+            PersonalTrainer address = new PersonalTrainer();
+            var locationService = new GoogleLocationService(apikey: "YOUR_API_KEY_HERE");
+            var personalTrainer = _context.PersonalTrainers.Find(id);
+
+            address.AddressLine = personalTrainer.AddressLine;
+            address.State = personalTrainer.State;
+            address.ZipCode = personalTrainer.ZipCode;
+
+            var fullAddress = $"{address.AddressLine} {address.State} {address.ZipCode}";
+            var point = locationService.GetLatLongFromAddress(fullAddress);
+            address.Lat = point.Latitude;
+            address.Long = point.Longitude;
+
+            return View(address);
         }
     }
 }
