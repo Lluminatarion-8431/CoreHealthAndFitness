@@ -22,16 +22,16 @@
     <tbody>
         @foreach (var item in Model)
         {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.FirstName)
-    </td>
-    <td>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
 
-        @Html.ActionLink("Details", "Details", new { id = item.PersonalTrainerId })
+                    @Html.ActionLink("Details", "Details", new { id = item.PersonalTrainerId })
 
-    </td>
-</tr>}
+                </td>
+            </tr>
+}
     </tbody>
 </table>
-

@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Core_Health_and_Fitness.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201020143531_CHAF")]
+    [Migration("20201021174217_CHAF")]
     partial class CHAF
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -66,9 +66,6 @@ namespace Core_Health_and_Fitness.Migrations
                     b.Property<int>("Age")
                         .HasColumnType("int");
 
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
-
                     b.Property<string>("FitnessGoal")
                         .HasColumnType("nvarchar(max)");
 
@@ -89,8 +86,6 @@ namespace Core_Health_and_Fitness.Migrations
 
                     b.HasKey("ClientProfileId");
 
-                    b.HasIndex("ClientId");
-
                     b.HasIndex("IdentityUserId");
 
                     b.ToTable("ClientProfile");
@@ -109,9 +104,6 @@ namespace Core_Health_and_Fitness.Migrations
                     b.Property<int>("Carbohydrates")
                         .HasColumnType("int");
 
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Fat")
                         .HasColumnType("int");
 
@@ -122,8 +114,6 @@ namespace Core_Health_and_Fitness.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("DietPlanID");
-
-                    b.HasIndex("ClientId");
 
                     b.HasIndex("IdentityUserId");
 
@@ -139,9 +129,6 @@ namespace Core_Health_and_Fitness.Migrations
 
                     b.Property<string>("AddressLine")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
@@ -166,8 +153,6 @@ namespace Core_Health_and_Fitness.Migrations
 
                     b.HasKey("PersonalTrainerId");
 
-                    b.HasIndex("ClientId");
-
                     b.HasIndex("IdentityUserId");
 
                     b.ToTable("PersonalTrainers");
@@ -179,9 +164,6 @@ namespace Core_Health_and_Fitness.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ClientId")
-                        .HasColumnType("int");
 
                     b.Property<string>("Friday")
                         .HasColumnType("nvarchar(max)");
@@ -208,8 +190,6 @@ namespace Core_Health_and_Fitness.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("ScheduleID");
-
-                    b.HasIndex("ClientId");
 
                     b.HasIndex("IdentityUserId");
 
@@ -245,15 +225,15 @@ namespace Core_Health_and_Fitness.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "5c4dd010-0da0-4b36-996b-74a5a7a88266",
-                            ConcurrencyStamp = "d60648c7-137a-4141-9466-c75127f1b72f",
+                            Id = "fcebdc87-6caf-4754-8723-a5383c5404ca",
+                            ConcurrencyStamp = "f76a0291-f69f-4edd-8f79-7c9d70b58c88",
                             Name = "Client",
                             NormalizedName = "CLIENT"
                         },
                         new
                         {
-                            Id = "b61a89a3-7a72-4f06-940c-eb71498d36a2",
-                            ConcurrencyStamp = "d1c3ce8f-e50b-4b7c-9abf-eb04e157eab4",
+                            Id = "183fdaeb-13bb-41ea-9bd6-5a48512be6b5",
+                            ConcurrencyStamp = "18f9ac66-f2b7-4e7b-9b90-849279c8b8b2",
                             Name = "PersonalTrainer",
                             NormalizedName = "PERSONALTRAINER"
                         });
@@ -437,12 +417,6 @@ namespace Core_Health_and_Fitness.Migrations
 
             modelBuilder.Entity("Core_Health_and_Fitness.Models.ClientProfile", b =>
                 {
-                    b.HasOne("Core_Health_and_Fitness.Models.Client", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
                         .WithMany()
                         .HasForeignKey("IdentityUserId");
@@ -450,12 +424,6 @@ namespace Core_Health_and_Fitness.Migrations
 
             modelBuilder.Entity("Core_Health_and_Fitness.Models.DietPlan", b =>
                 {
-                    b.HasOne("Core_Health_and_Fitness.Models.Client", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
                         .WithMany()
                         .HasForeignKey("IdentityUserId");
@@ -463,12 +431,6 @@ namespace Core_Health_and_Fitness.Migrations
 
             modelBuilder.Entity("Core_Health_and_Fitness.Models.PersonalTrainer", b =>
                 {
-                    b.HasOne("Core_Health_and_Fitness.Models.Client", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
                         .WithMany()
                         .HasForeignKey("IdentityUserId");
@@ -476,12 +438,6 @@ namespace Core_Health_and_Fitness.Migrations
 
             modelBuilder.Entity("Core_Health_and_Fitness.Models.WorkoutSchedule", b =>
                 {
-                    b.HasOne("Core_Health_and_Fitness.Models.Client", "Client")
-                        .WithMany()
-                        .HasForeignKey("ClientId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
                         .WithMany()
                         .HasForeignKey("IdentityUserId");

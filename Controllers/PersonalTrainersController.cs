@@ -23,7 +23,7 @@ namespace Core_Health_and_Fitness.Controllers
         // GET: PersonalTrainers
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.PersonalTrainers.Include(p => p.Client).Include(p => p.IdentityUser);
+            var applicationDbContext = _context.PersonalTrainers.Include(p => p.IdentityUser);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -36,7 +36,6 @@ namespace Core_Health_and_Fitness.Controllers
             }
 
             var personalTrainer = await _context.PersonalTrainers
-                .Include(p => p.Client)
                 .Include(p => p.IdentityUser)
                 .FirstOrDefaultAsync(m => m.PersonalTrainerId == id);
             if (personalTrainer == null)
@@ -50,7 +49,6 @@ namespace Core_Health_and_Fitness.Controllers
         // GET: PersonalTrainers/Create
         public IActionResult Create()
         {
-            ViewData["ClientId"] = new SelectList(_context.Clients, "ClientId", "ClientId");
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
@@ -60,7 +58,7 @@ namespace Core_Health_and_Fitness.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PersonalTrainerId,FirstName,LastName,AddressLine,State,ZipCode,Lat,Long,IdentityUserId,ClientId")] PersonalTrainer personalTrainer)
+        public async Task<IActionResult> Create([Bind("PersonalTrainerId,FirstName,LastName,AddressLine,State,ZipCode,Lat,Long,IdentityUserId")] PersonalTrainer personalTrainer)
         {
             if (ModelState.IsValid)
             {
@@ -71,7 +69,6 @@ namespace Core_Health_and_Fitness.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClientId"] = new SelectList(_context.Clients, "ClientId", "ClientId", personalTrainer.ClientId);
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", personalTrainer.IdentityUserId);
             return View(personalTrainer);
         }
@@ -89,7 +86,6 @@ namespace Core_Health_and_Fitness.Controllers
             {
                 return NotFound();
             }
-            ViewData["ClientId"] = new SelectList(_context.Clients, "ClientId", "ClientId", personalTrainer.ClientId);
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", personalTrainer.IdentityUserId);
             return View(personalTrainer);
         }
@@ -99,7 +95,7 @@ namespace Core_Health_and_Fitness.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PersonalTrainerId,FirstName,LastName,AddressLine,State,ZipCode,Lat,Long,IdentityUserId,ClientId")] PersonalTrainer personalTrainer)
+        public async Task<IActionResult> Edit(int id, [Bind("PersonalTrainerId,FirstName,LastName,AddressLine,State,ZipCode,Lat,Long,IdentityUserId")] PersonalTrainer personalTrainer)
         {
             if (id != personalTrainer.PersonalTrainerId)
             {
@@ -126,7 +122,6 @@ namespace Core_Health_and_Fitness.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClientId"] = new SelectList(_context.Clients, "ClientId", "ClientId", personalTrainer.ClientId);
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", personalTrainer.IdentityUserId);
             return View(personalTrainer);
         }
@@ -140,7 +135,6 @@ namespace Core_Health_and_Fitness.Controllers
             }
 
             var personalTrainer = await _context.PersonalTrainers
-                .Include(p => p.Client)
                 .Include(p => p.IdentityUser)
                 .FirstOrDefaultAsync(m => m.PersonalTrainerId == id);
             if (personalTrainer == null)
@@ -204,7 +198,6 @@ namespace Core_Health_and_Fitness.Controllers
             {
                 return NotFound();
             }
-            ViewData["ClientId"] = new SelectList(_context.Clients, "ClientId", "ClientId", workoutSchedule.ClientId);
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", workoutSchedule.IdentityUserId);
             return View(workoutSchedule);
         }
@@ -241,14 +234,12 @@ namespace Core_Health_and_Fitness.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClientId"] = new SelectList(_context.Clients, "ClientId", "ClientId", workoutSchedule.ClientId);
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", workoutSchedule.IdentityUserId);
             return View(workoutSchedule);
         }
-
         public async Task<IActionResult> ViewClientProfile()
         {
-            var applicationDbContext = _context.ClientProfile.Include(p => p.Client).Include(p => p.IdentityUser);
+            var applicationDbContext = _context.ClientProfile.Include(p => p.IdentityUser);
             return View(await applicationDbContext.ToListAsync());
 
             //var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -276,7 +267,7 @@ namespace Core_Health_and_Fitness.Controllers
             if (ModelState.IsValid)
             {
                 //personalTrainer.IdentityUserId = userId;
-                
+
 
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 dietPlan.IdentityUserId = userId;
@@ -286,9 +277,9 @@ namespace Core_Health_and_Fitness.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClientId"] = new SelectList(_context.Clients, "ClientId", "ClientId", dietPlan.ClientId);
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", dietPlan.IdentityUserId);
             return View(dietPlan);
         }
     }
 }
+

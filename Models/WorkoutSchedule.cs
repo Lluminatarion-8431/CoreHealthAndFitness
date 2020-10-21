@@ -23,9 +23,5 @@ namespace Core_Health_and_Fitness.Models
         [ForeignKey("IdentityUser")]
         public string IdentityUserId { get; set; }
         public IdentityUser IdentityUser { get; set; }
-
-        [ForeignKey("Client")]
-        public int ClientId { get; set; }
-        public Client Client { get; set; }
     }
 }

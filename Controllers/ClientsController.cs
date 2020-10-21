@@ -36,15 +36,15 @@ namespace Core_Health_and_Fitness.Controllers
                 return NotFound();
             }
 
-            var PersonalTrainers = await _context.PersonalTrainers
-                 .Include(c => c.IdentityUser)
-                 .FirstOrDefaultAsync(m => m.PersonalTrainerId == id);
-            if (PersonalTrainers == null)
+            var client = await _context.Clients
+                .Include(c => c.IdentityUser)
+                .FirstOrDefaultAsync(m => m.ClientId == id);
+            if (client == null)
             {
                 return NotFound();
             }
 
-            return View(PersonalTrainers);
+            return View(client);
         }
 
         // GET: Clients/Create
@@ -196,7 +196,6 @@ namespace Core_Health_and_Fitness.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["ClientId"] = new SelectList(_context.Clients, "ClientId", "ClientId", clientProfile.ClientId);
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", clientProfile.IdentityUserId);
             return View(clientProfile);
         }
@@ -204,14 +203,14 @@ namespace Core_Health_and_Fitness.Controllers
         public async Task<IActionResult> ViewDietPlan()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var applicationDbContext = _context.DietPlan.Include(p => p.Client).Include(p => p.IdentityUser);
+            var applicationDbContext = _context.DietPlan.Include(p => p.IdentityUser);
             return View(await applicationDbContext.ToListAsync());
         }
 
         public async Task<IActionResult> ViewWorkoutSchedule()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var applicationDbContext = _context.WorkoutSchedule.Include(p => p.Client).Include(p => p.IdentityUser);
+            var applicationDbContext = _context.WorkoutSchedule.Include(p => p.IdentityUser);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -219,7 +218,7 @@ namespace Core_Health_and_Fitness.Controllers
         {
 
             PersonalTrainer address = new PersonalTrainer();
-            var locationService = new GoogleLocationService(apikey: "YOUR_API_KEY_HERE");
+            var locationService = new GoogleLocationService(apikey: "AIzaSyCcbQClo7NS9uH8VIQ7lMwc_FuUX2nVagg");
             var personalTrainer = _context.PersonalTrainers.Find(id);
 
             address.AddressLine = personalTrainer.AddressLine;

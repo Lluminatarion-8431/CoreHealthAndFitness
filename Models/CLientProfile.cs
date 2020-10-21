@@ -31,9 +31,6 @@ namespace Core_Health_and_Fitness.Models
         [Display(Name = "Fitness Goal")]
         public string FitnessGoal { get; set; }
 
-        [ForeignKey("Client")]
-        public int ClientId { get; set; }
-        public Client Client { get; set; }
 
         [ForeignKey("IdentityUser")]
         public string IdentityUserId { get; set; }
