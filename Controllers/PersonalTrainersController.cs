@@ -245,5 +245,18 @@ namespace Core_Health_and_Fitness.Controllers
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", workoutSchedule.IdentityUserId);
             return View(workoutSchedule);
         }
+
+        public async Task<IActionResult> ViewClientProfile()
+        {
+            var applicationDbContext = _context.ClientProfile.Include(p => p.Client).Include(p => p.IdentityUser);
+            return View(await applicationDbContext.ToListAsync());
+
+            //var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //var client = _context.Clients.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            //var clientProfile = await _context.ClientProfile.Where(c => c.IdentityUserId == client.ClientId).ToList();
+
+
+            //return View(clientProfile);
+        }
     }
 }
