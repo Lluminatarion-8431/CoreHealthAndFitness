@@ -166,6 +166,7 @@ namespace Core_Health_and_Fitness.Controllers
             return _context.WorkoutSchedule.Any(e => e.ScheduleID == id);
         }
         [HttpGet]
+
         public IActionResult CreateWorkoutSchedule()
         {
             WorkoutSchedule workoutSchedule = new WorkoutSchedule();
@@ -174,7 +175,7 @@ namespace Core_Health_and_Fitness.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateWorkoutSchedule([Bind("ScheduleID,Monday,Tuesday,Wednsday,Thursday,Friday,Saturday,Sunday,IdentityUserId,ClientId")] WorkoutSchedule workoutSchedule)
+        public async Task<IActionResult> CreateWorkoutSchedule([Bind("ScheduleID,Monday,Tuesday,Wednsday,Thursday,Friday,Saturday,Sunday,IdentityUserId,")] WorkoutSchedule workoutSchedule)
         {
             if (ModelState.IsValid)
             {
@@ -211,7 +212,7 @@ namespace Core_Health_and_Fitness.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditWorkoutSchedule(int id, [Bind("ScheduleID,Monday,Tuesday,Wednsday,Thursday,Friday,Saturday,Sunday,IdentityUserId,ClientId")] WorkoutSchedule workoutSchedule)
+        public async Task<IActionResult> EditWorkoutSchedule(int id, [Bind("ScheduleID,Monday,Tuesday,Wednsday,Thursday,Friday,Saturday,Sunday,IdentityUserId,")] WorkoutSchedule workoutSchedule)
         {
             if (id != workoutSchedule.ScheduleID)
             {
@@ -266,7 +267,7 @@ namespace Core_Health_and_Fitness.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateDietPlan([Bind("DietPlanID,CaloricIntake,Protein,Carbohydrates,Fat,IdentityUserId,ClientId")] DietPlan dietPlan)
+        public async Task<IActionResult> CreateDietPlan([Bind("DietPlanID,CaloricIntake,Protein,Carbohydrates,Fat,IdentityUserId,")] DietPlan dietPlan)
         {
             if (ModelState.IsValid)
             {

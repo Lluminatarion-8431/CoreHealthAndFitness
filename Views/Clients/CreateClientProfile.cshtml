@@ -1,17 +1,17 @@
 ﻿@model Core_Health_and_Fitness.Models.ClientProfile
 
 @{
-    ViewData["Title"] = "ClientProfile";
+    ViewData["Title"] = "CreateClientProfile";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>ClientProfile</h1>
+<h1>CreateClientProfile</h1>
 
 <h4>ClientProfile</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="ClientProfile">
+        <form asp-action="CreateClientProfile">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Age" class="control-label"></label>
@@ -43,7 +43,7 @@
                 <input asp-for="FitnessGoal" class="form-control" />
                 <span asp-validation-for="FitnessGoal" class="text-danger"></span>
             </div>
-            <div hidden class="form-group">
+            <div class="form-group">
                 <label asp-for="IdentityUserId" class="control-label"></label>
                 <select asp-for="IdentityUserId" class ="form-control" asp-items="ViewBag.IdentityUserId"></select>
             </div>
