@@ -164,9 +164,9 @@ namespace Core_Health_and_Fitness.Controllers
 
         public async Task<IActionResult> PersonalTrainersList()
         {
-            var personalTrainersList = await _context.PersonalTrainers.ToListAsync();
+            var personalTrainersList = _context.PersonalTrainers.Include(p => p.IdentityUser);
 
-            return View(personalTrainersList);
+            return View(await personalTrainersList.ToListAsync());
         }
 
         [HttpGet]
@@ -201,14 +201,18 @@ namespace Core_Health_and_Fitness.Controllers
         public async Task<IActionResult> ViewDietPlan()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var applicationDbContext = _context.DietPlan.Include(p => p.IdentityUser);
+            var client = _context.Clients.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+
+            var applicationDbContext = _context.DietPlan.Where(c => c.DietPlanID == client.ClientId);
             return View(await applicationDbContext.ToListAsync());
         }
 
         public async Task<IActionResult> ViewWorkoutSchedule()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var applicationDbContext = _context.WorkoutSchedule.Include(p => p.IdentityUser);
+            var client = _context.Clients.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+
+            var applicationDbContext = _context.WorkoutSchedule.Where(c => c.ScheduleID == client.ClientId);
             return View(await applicationDbContext.ToListAsync());
         }
 
