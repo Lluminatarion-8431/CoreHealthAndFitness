@@ -41,42 +41,50 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AddressLine)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.State)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ZipCode)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Lat)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Long)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IdentityUser.Id)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.PersonalTrainerId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.PersonalTrainerId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.PersonalTrainerId">Delete</a> |
-                <a asp-action="CreateWorkoutSchedule" asp-route-id="@item.PersonalTrainerId">Create Workout Schedule</a> |
-                <a asp-action="EditWorkoutSchedule" asp-route-id="@item.PersonalTrainerId">Edit Workout Schedule</a> |
-                <a asp-action="CreateDietPlan" asp-route-id="@item.PersonalTrainerId">Create Diet Plan</a> |
-                <a asp-action="ViewClientProfile" asp-route-id="@item.PersonalTrainerId">View Client Profile</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.AddressLine)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.State)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ZipCode)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Lat)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Long)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdentityUser.Id)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.PersonalTrainerId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.PersonalTrainerId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.PersonalTrainerId">Delete</a> |
+                    <a asp-action="CreateWorkoutSchedule" asp-route-id="@item.PersonalTrainerId">Create Workout Schedule</a> |
+                    <a asp-action="EditWorkoutSchedule" asp-route-id="@item.PersonalTrainerId">Edit Workout Schedule</a> |
+                    <a asp-action="CreateDietPlan" asp-route-id="@item.PersonalTrainerId">Create Diet Plan</a> |
+                    <a asp-action="ViewClientProfile" asp-route-id="@item.PersonalTrainerId">View Client Profile</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>
+
+<script src="https://platform.fatsecret.com/js?key=e3c56bd3bbe84195b3e50e4ff4141eef"></script>
+<div id="my_container" class="fatsecret_container"></div>
+<script>
+    fatsecret.setContainer("my_container");
+    fatsecret.setCanvas("home");
+</script>
