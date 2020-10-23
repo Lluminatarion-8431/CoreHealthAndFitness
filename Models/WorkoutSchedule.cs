@@ -19,6 +19,7 @@ namespace Core_Health_and_Fitness.Models
         public string Friday { get; set; }
         public string Saturday { get; set; }
         public string Sunday { get; set; }
+       
 
         [ForeignKey("IdentityUser")]
         public string IdentityUserId { get; set; }

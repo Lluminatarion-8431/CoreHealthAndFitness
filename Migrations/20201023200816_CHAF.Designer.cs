@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Core_Health_and_Fitness.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201021174217_CHAF")]
+    [Migration("20201023200816_CHAF")]
     partial class CHAF
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -145,6 +145,9 @@ namespace Core_Health_and_Fitness.Migrations
                     b.Property<double>("Long")
                         .HasColumnType("float");
 
+                    b.Property<string>("MedicalProviders")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("State")
                         .HasColumnType("nvarchar(max)");
 
@@ -225,15 +228,15 @@ namespace Core_Health_and_Fitness.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "fcebdc87-6caf-4754-8723-a5383c5404ca",
-                            ConcurrencyStamp = "f76a0291-f69f-4edd-8f79-7c9d70b58c88",
+                            Id = "afcbba8c-7629-42eb-a21f-1569ed0ea827",
+                            ConcurrencyStamp = "66d55d7b-eb39-4a7c-9fdb-f2375bca0d14",
                             Name = "Client",
                             NormalizedName = "CLIENT"
                         },
                         new
                         {
-                            Id = "183fdaeb-13bb-41ea-9bd6-5a48512be6b5",
-                            ConcurrencyStamp = "18f9ac66-f2b7-4e7b-9b90-849279c8b8b2",
+                            Id = "b749ccbd-cc5c-420c-b065-1f74b9eafdb8",
+                            ConcurrencyStamp = "f225ef06-83da-42af-a684-0d59a9770187",
                             Name = "PersonalTrainer",
                             NormalizedName = "PERSONALTRAINER"
                         });

@@ -28,6 +28,9 @@ namespace Core_Health_and_Fitness.Models
         [Display(Name = "Zip Code")]
         public int ZipCode { get; set; }
 
+        [Display(Name = "List of Known health care physicians")]
+        public string MedicalProviders { get; set; }
+
         public double Lat { get; set; }
         public double Long { get; set; }
 

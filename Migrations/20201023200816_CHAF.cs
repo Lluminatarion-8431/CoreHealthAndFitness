@@ -236,6 +236,7 @@ namespace Core_Health_and_Fitness.Migrations
                     AddressLine = table.Column<string>(nullable: true),
                     State = table.Column<string>(nullable: true),
                     ZipCode = table.Column<int>(nullable: false),
+                    MedicalProviders = table.Column<string>(nullable: true),
                     Lat = table.Column<double>(nullable: false),
                     Long = table.Column<double>(nullable: false),
                     IdentityUserId = table.Column<string>(nullable: true)
@@ -280,12 +281,12 @@ namespace Core_Health_and_Fitness.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "fcebdc87-6caf-4754-8723-a5383c5404ca", "f76a0291-f69f-4edd-8f79-7c9d70b58c88", "Client", "CLIENT" });
+                values: new object[] { "afcbba8c-7629-42eb-a21f-1569ed0ea827", "66d55d7b-eb39-4a7c-9fdb-f2375bca0d14", "Client", "CLIENT" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "183fdaeb-13bb-41ea-9bd6-5a48512be6b5", "18f9ac66-f2b7-4e7b-9b90-849279c8b8b2", "PersonalTrainer", "PERSONALTRAINER" });
+                values: new object[] { "b749ccbd-cc5c-420c-b065-1f74b9eafdb8", "f225ef06-83da-42af-a684-0d59a9770187", "PersonalTrainer", "PERSONALTRAINER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

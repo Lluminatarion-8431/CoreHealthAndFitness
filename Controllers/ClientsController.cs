@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Core_Health_and_Fitness.Data;
 using Core_Health_and_Fitness.Models;
-using System.Security.Claims;
 using GoogleMaps.LocationServices;
+using System.Security.Claims;
 
 namespace Core_Health_and_Fitness.Controllers
 {
