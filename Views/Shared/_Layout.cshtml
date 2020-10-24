@@ -3,28 +3,73 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Core_Health_and_Fitness</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <title>@ViewData["Title"] - Core Health and Fitness</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap (Cyborg).css" />
     <link rel="stylesheet" href="~/css/site.css" />
+
+    <style>
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            background-color: #333;
+        }
+
+        body {
+            color: darkgray;
+        }
+
+        li {
+            float: left;
+        }
+
+            li a {
+                display: block;
+                color: white;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+            }
+
+                li a:hover:not(.active) {
+                    background-color: #111;
+                }
+
+        .active {
+            background-color: #4CAF50;
+        }
+    </style>
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Core_Health_and_Fitness</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><h5>Core Health and Fitness</h5></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
                     <partial name="_LoginPartial" />
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
+                    <ul>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+                        <li><a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a></li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            if (User.IsInRole("PersonalTrainer"))
+                            {
+                                @*<li>
+                                    <a asp-area="" asp-controller="PersonalTrainers" asp-action="Edit">Edit Profile</a>
+                                </li>*@
+                            }
+                            if (User.IsInRole("Client"))
+                            {
+                                <li>
+                                    <a asp-area="" asp-controller="Customers" asp-action="PersonalTrainersList">Find A Personal Trainer</a>
+                                </li>
+                            }
+                        }
                     </ul>
                 </div>
             </div>
@@ -38,7 +83,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2020 - Core_Health_and_Fitness - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2020 - Core Health and Fitness - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
