@@ -17,7 +17,7 @@ namespace Core_Health_and_Fitness.Models
 
         public string GetBMIURL(Client client)
         {
-            return $"https://bmi.p.rapidapi.com/" + PrivateAPIKeys.BMIAPIKey;
+            return $"https://bmi.p.rapidapi.com/" + PrivateAPIKey.BMIAPIKey;
         }
 
         public async Task<Client> GetBMI(Client client)
