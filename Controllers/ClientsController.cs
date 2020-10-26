@@ -7,8 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Core_Health_and_Fitness.Data;
 using Core_Health_and_Fitness.Models;
-using GoogleMaps.LocationServices;
 using System.Security.Claims;
+using GoogleMaps.LocationServices;
 
 namespace Core_Health_and_Fitness.Controllers
 {
@@ -52,6 +52,8 @@ namespace Core_Health_and_Fitness.Controllers
         {
             Client client = new Client();
             return View(client);
+            //ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
+            //return View();
         }
 
         // POST: Clients/Create
@@ -63,6 +65,7 @@ namespace Core_Health_and_Fitness.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 client.IdentityUserId = userId;
 

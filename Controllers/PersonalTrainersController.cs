@@ -51,6 +51,8 @@ namespace Core_Health_and_Fitness.Controllers
         {
             PersonalTrainer personalTrainer = new PersonalTrainer();
             return View(personalTrainer);
+            //ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
+            //return View();
         }
 
         // POST: PersonalTrainers/Create
@@ -58,7 +60,7 @@ namespace Core_Health_and_Fitness.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PersonalTrainerId,FirstName,LastName,AddressLine,State,ZipCode,Lat,Long,IdentityUserId")] PersonalTrainer personalTrainer)
+        public async Task<IActionResult> Create([Bind("PersonalTrainerId,FirstName,LastName,AddressLine,State,ZipCode,MedicalProviders,Lat,Long,IdentityUserId")] PersonalTrainer personalTrainer)
         {
             if (ModelState.IsValid)
             {
@@ -95,7 +97,7 @@ namespace Core_Health_and_Fitness.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PersonalTrainerId,FirstName,LastName,AddressLine,State,ZipCode,Lat,Long,IdentityUserId")] PersonalTrainer personalTrainer)
+        public async Task<IActionResult> Edit(int id, [Bind("PersonalTrainerId,FirstName,LastName,AddressLine,State,ZipCode,MedicalProviders,Lat,Long,IdentityUserId")] PersonalTrainer personalTrainer)
         {
             if (id != personalTrainer.PersonalTrainerId)
             {
@@ -208,8 +210,6 @@ namespace Core_Health_and_Fitness.Controllers
         }
 
         // POST: WorkoutSchedule/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditWorkoutSchedule(int id, [Bind("ScheduleID,Monday,Tuesday,Wednsday,Thursday,Friday,Saturday,Sunday,IdentityUserId,")] WorkoutSchedule workoutSchedule)
@@ -273,8 +273,6 @@ namespace Core_Health_and_Fitness.Controllers
         }
 
         // POST: DietPlan/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateDietPlan([Bind("DietPlanID,CaloricIntake,Protein,Carbohydrates,Fat,IdentityUserId,")] DietPlan dietPlan)
@@ -296,5 +294,6 @@ namespace Core_Health_and_Fitness.Controllers
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", dietPlan.IdentityUserId);
             return View(dietPlan);
         }
+
     }
 }

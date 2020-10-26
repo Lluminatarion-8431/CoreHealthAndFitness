@@ -31,9 +31,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.State)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.IdentityUser)
-            </th>
+            </th>*@
             <th></th>
         </tr>
     </thead>
@@ -58,17 +58,24 @@
             <td>
                 @Html.DisplayFor(modelItem => item.State)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.IdentityUser.Id)
-            </td>
+            </td>*@
             <td>
                 <a asp-action="Edit" asp-route-id="@item.ClientId">Edit</a> |
+
                 <a asp-action="Details" asp-route-id="@item.ClientId">Details</a> |
+
                 <a asp-action="Delete" asp-route-id="@item.ClientId">Delete</a> |
+
                 <a asp-action="PersonalTrainersList" asp-route-id="@item.ClientId">Personal Trainers List</a> |
+
                 <a asp-action="ViewWorkoutSchedule" asp-route-id="@item.ClientId">Workout Schedule</a> |
+
                 <a asp-action="CreateClientProfile" asp-route-id="@item.ClientId">Create Client Profile</a> |
+
                 <a asp-action="Map" asp-route-id="@item.ClientId">Personal Trainer Location</a> |
+
                 <a asp-action="ViewDietPlan" asp-route-id="@item.ClientId">View Diet Plan</a>
             </td>
         </tr>
