@@ -43,9 +43,17 @@
                 <input asp-for="State" class="form-control" />
                 <span asp-validation-for="State" class="text-danger"></span>
             </div>
-            <div hidden class="form-group">
+            <div class="form-group">
                 <label asp-for="IdentityUserId" class="control-label"></label>
                 <select asp-for="IdentityUserId" class ="form-control" asp-items="ViewBag.IdentityUserId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="PersonalTrainerId" class="control-label"></label>
+                <select asp-for="PersonalTrainerId" class ="form-control" asp-items="ViewBag.PersonalTrainerId"></select>
+            </div>
+            <div class="form-group">
+                <label asp-for="ClientProfileId" class="control-label"></label>
+                <select asp-for="ClientProfileId" class ="form-control" asp-items="ViewBag.ClientProfileId"></select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

@@ -32,12 +32,5 @@ namespace Core_Health_and_Fitness.Models
         public string FitnessGoal { get; set; }
 
 
-        [ForeignKey("IdentityUser")]
-        public string IdentityUserId { get; set; }
-        public IdentityUser IdentityUser { get; set; }
-
-        [ForeignKey("PersonalTrainer")]
-        public int PersonalTrainerId { get; set; }
-        public PersonalTrainer PersonalTrainer { get; set; }
     }
 }

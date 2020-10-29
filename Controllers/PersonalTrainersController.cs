@@ -23,7 +23,7 @@ namespace Core_Health_and_Fitness.Controllers
         // GET: PersonalTrainers
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.PersonalTrainers.Include(p => p.IdentityUser);
+            var applicationDbContext = _context.PersonalTrainers.Include(p => p.DietPlan).Include(p => p.IdentityUser).Include(p => p.WorkoutSchedule);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -36,7 +36,9 @@ namespace Core_Health_and_Fitness.Controllers
             }
 
             var personalTrainer = await _context.PersonalTrainers
+                .Include(p => p.DietPlan)
                 .Include(p => p.IdentityUser)
+                .Include(p => p.WorkoutSchedule)
                 .FirstOrDefaultAsync(m => m.PersonalTrainerId == id);
             if (personalTrainer == null)
             {
@@ -49,10 +51,16 @@ namespace Core_Health_and_Fitness.Controllers
         // GET: PersonalTrainers/Create
         public IActionResult Create()
         {
-            PersonalTrainer personalTrainer = new PersonalTrainer();
+            PersonalTrainer personalTrainer = new PersonalTrainer()
+            {
+                DietPlan = new DietPlan(),
+                WorkoutSchedule = new WorkoutSchedule()
+            };
+
+            ViewData["DietPlanID"] = new SelectList(_context.DietPlan, "DietPlanID", "DietPlanID");
+            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["ScheduleID"] = new SelectList(_context.WorkoutSchedule, "ScheduleID", "ScheduleID");
             return View(personalTrainer);
-            //ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
-            //return View();
         }
 
         // POST: PersonalTrainers/Create
@@ -60,18 +68,23 @@ namespace Core_Health_and_Fitness.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PersonalTrainerId,FirstName,LastName,AddressLine,State,ZipCode,MedicalProviders,Lat,Long,IdentityUserId")] PersonalTrainer personalTrainer)
+        public async Task<IActionResult> Create([Bind("PersonalTrainerId,FirstName,LastName,AddressLine,State,ZipCode,MedicalProviders,Lat,Long,IdentityUserId,DietPlanID,ScheduleID")] PersonalTrainer personalTrainer)
         {
             if (ModelState.IsValid)
             {
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 personalTrainer.IdentityUserId = userId;
 
+                personalTrainer.DietPlan = _context.DietPlan.Find(personalTrainer.DietPlanID);
+                personalTrainer.WorkoutSchedule = _context.WorkoutSchedule.Find(personalTrainer.ScheduleID);
+
                 _context.Add(personalTrainer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["DietPlanID"] = new SelectList(_context.DietPlan, "DietPlanID", "DietPlanID", personalTrainer.DietPlanID);
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", personalTrainer.IdentityUserId);
+            ViewData["ScheduleID"] = new SelectList(_context.WorkoutSchedule, "ScheduleID", "ScheduleID", personalTrainer.ScheduleID);
             return View(personalTrainer);
         }
 
@@ -88,7 +101,9 @@ namespace Core_Health_and_Fitness.Controllers
             {
                 return NotFound();
             }
+            ViewData["DietPlanID"] = new SelectList(_context.DietPlan, "DietPlanID", "DietPlanID", personalTrainer.DietPlanID);
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", personalTrainer.IdentityUserId);
+            ViewData["ScheduleID"] = new SelectList(_context.WorkoutSchedule, "ScheduleID", "ScheduleID", personalTrainer.ScheduleID);
             return View(personalTrainer);
         }
 
@@ -97,7 +112,7 @@ namespace Core_Health_and_Fitness.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PersonalTrainerId,FirstName,LastName,AddressLine,State,ZipCode,MedicalProviders,Lat,Long,IdentityUserId")] PersonalTrainer personalTrainer)
+        public async Task<IActionResult> Edit(int id, [Bind("PersonalTrainerId,FirstName,LastName,AddressLine,State,ZipCode,MedicalProviders,Lat,Long,IdentityUserId,DietPlanID,ScheduleID")] PersonalTrainer personalTrainer)
         {
             if (id != personalTrainer.PersonalTrainerId)
             {
@@ -124,7 +139,9 @@ namespace Core_Health_and_Fitness.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["DietPlanID"] = new SelectList(_context.DietPlan, "DietPlanID", "DietPlanID", personalTrainer.DietPlanID);
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", personalTrainer.IdentityUserId);
+            ViewData["ScheduleID"] = new SelectList(_context.WorkoutSchedule, "ScheduleID", "ScheduleID", personalTrainer.ScheduleID);
             return View(personalTrainer);
         }
 
@@ -137,7 +154,9 @@ namespace Core_Health_and_Fitness.Controllers
             }
 
             var personalTrainer = await _context.PersonalTrainers
+                .Include(p => p.DietPlan)
                 .Include(p => p.IdentityUser)
+                .Include(p => p.WorkoutSchedule)
                 .FirstOrDefaultAsync(m => m.PersonalTrainerId == id);
             if (personalTrainer == null)
             {
@@ -177,13 +196,13 @@ namespace Core_Health_and_Fitness.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateWorkoutSchedule([Bind("ScheduleID,Monday,Tuesday,Wednsday,Thursday,Friday,Saturday,Sunday,IdentityUserId,")] WorkoutSchedule workoutSchedule)
+        public async Task<IActionResult> CreateWorkoutSchedule([Bind("ScheduleID,Monday,Tuesday,Wednsday,Thursday,Friday,Saturday,Sunday")] WorkoutSchedule workoutSchedule)
         {
             if (ModelState.IsValid)
             {
-                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                workoutSchedule.IdentityUserId = userId;
-                var personalTrainer = _context.WorkoutSchedule.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+                //var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                //workoutSchedule.IdentityUserId = userId;
+                //var personalTrainer = _context.WorkoutSchedule.Where(c => c.IdentityUserId == userId).SingleOrDefault();
 
                 _context.WorkoutSchedule.Add(workoutSchedule);
                 await _context.SaveChangesAsync();
@@ -205,14 +224,16 @@ namespace Core_Health_and_Fitness.Controllers
             {
                 return NotFound();
             }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", workoutSchedule.IdentityUserId);
+            //ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", workoutSchedule.IdentityUserId);
             return View(workoutSchedule);
         }
 
         // POST: WorkoutSchedule/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditWorkoutSchedule(int id, [Bind("ScheduleID,Monday,Tuesday,Wednsday,Thursday,Friday,Saturday,Sunday,IdentityUserId,")] WorkoutSchedule workoutSchedule)
+        public async Task<IActionResult> EditWorkoutSchedule(int id, [Bind("ScheduleID,Monday,Tuesday,Wednsday,Thursday,Friday,Saturday,Sunday")] WorkoutSchedule workoutSchedule)
         {
             if (id != workoutSchedule.ScheduleID)
             {
@@ -239,31 +260,40 @@ namespace Core_Health_and_Fitness.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", workoutSchedule.IdentityUserId);
+            //ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", workoutSchedule.IdentityUserId);
             return View(workoutSchedule);
         }
-        public IActionResult ViewClientProfile()
+        public async Task<IActionResult> ViewWorkoutSchedule()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var client = _context.Clients.Where(c => c.IdentityUserId == userId).SingleOrDefault();
 
-            var clientProfiles = _context.ClientProfile.Where(c => c.ClientProfileId == client.ClientId);
-            return View(clientProfiles);
-
-            //var clientProfiles = _context.ClientProfile.Where(p => p.IdentityUser);
-            //return View(await clientProfiles.ToListAsync());
-
-            //var personalTrainersList = _context.PersonalTrainers.Include(p => p.IdentityUser);
-
-            //return View(await personalTrainersList.ToListAsync());
-
-            //var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            //var client = _context.Clients.Where(c => c.IdentityUserId == userId).SingleOrDefault();
-            //var clientProfile = await _context.ClientProfile.Where(c => c.IdentityUserId == client.ClientId).ToList();
-
-
-            //return View(clientProfile);
+            var applicationDbContext = _context.WorkoutSchedule.Where(c => c.ScheduleID == client.ClientId);
+            return View(await applicationDbContext.ToListAsync());
         }
+
+        //public IActionResult ViewClientProfile()
+        //{
+        //    var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //    var client = _context.Clients.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+
+        //    var clientProfiles = _context.ClientProfile.Where(c => c.ClientProfileId == client.ClientId);
+        //    return View(clientProfiles);
+
+        //    //var clientProfiles = _context.ClientProfile.Where(p => p.IdentityUser);
+        //    //return View(await clientProfiles.ToListAsync());
+
+        //    //var personalTrainersList = _context.PersonalTrainers.Include(p => p.IdentityUser);
+
+        //    //return View(await personalTrainersList.ToListAsync());
+
+        //    //var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //    //var client = _context.Clients.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+        //    //var clientProfile = await _context.ClientProfile.Where(c => c.IdentityUserId == client.ClientId).ToList();
+
+
+        //    //return View(clientProfile);
+        //}
 
         [HttpGet]
         public IActionResult CreateDietPlan()
@@ -273,27 +303,39 @@ namespace Core_Health_and_Fitness.Controllers
         }
 
         // POST: DietPlan/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateDietPlan([Bind("DietPlanID,CaloricIntake,Protein,Carbohydrates,Fat,IdentityUserId,")] DietPlan dietPlan)
+        public async Task<IActionResult> CreateDietPlan([Bind("DietPlanID,CaloricIntake,Protein,Carbohydrates,Fat")] DietPlan dietPlan)
         {
             if (ModelState.IsValid)
             {
                 //personalTrainer.IdentityUserId = userId;
 
 
-                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                dietPlan.IdentityUserId = userId;
+                //var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                //dietPlan.IdentityUserId = userId;
 
-                var personalTrainer = _context.DietPlan.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+                //var personalTrainer = _context.DietPlan.Where(c => c.IdentityUserId == userId).SingleOrDefault();
 
                 _context.Add(dietPlan);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", dietPlan.IdentityUserId);
+            //ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", dietPlan.IdentityUserId);
             return View(dietPlan);
+        }
+
+        public async Task<IActionResult> ViewDietPlan()
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var client = _context.Clients.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+
+            var applicationDbContext = _context.DietPlan.Where(c => c.DietPlanID == client.ClientId);
+            return View(await applicationDbContext.ToListAsync());
         }
 
     }
 }
+

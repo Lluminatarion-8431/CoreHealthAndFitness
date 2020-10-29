@@ -40,6 +40,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.IdentityUser)
             </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DietPlan)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WorkoutSchedule)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -65,7 +71,7 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.MedicalProviders)
                 </td>
-                @*<td>
+                <td>
                     @Html.DisplayFor(modelItem => item.Lat)
                 </td>
                 <td>
@@ -73,20 +79,20 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.IdentityUser.Id)
-                </td>*@
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DietPlan.DietPlanID)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.WorkoutSchedule.ScheduleID)
+                </td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.PersonalTrainerId">Edit</a> |
-
                     <a asp-action="Details" asp-route-id="@item.PersonalTrainerId">Details</a> |
-
                     <a asp-action="Delete" asp-route-id="@item.PersonalTrainerId">Delete</a> |
-
                     <a asp-action="CreateWorkoutSchedule" asp-route-id="@item.PersonalTrainerId">Create Workout Schedule</a> |
-
                     <a asp-action="EditWorkoutSchedule" asp-route-id="@item.PersonalTrainerId">Edit Workout Schedule</a> |
-
                     <a asp-action="CreateDietPlan" asp-route-id="@item.PersonalTrainerId">Create Diet Plan</a> |
-
                     <a asp-action="ViewClientProfile" asp-route-id="@item.PersonalTrainerId">View Client Profile</a>
                 </td>
             </tr>

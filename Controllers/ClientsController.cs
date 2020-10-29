@@ -24,7 +24,7 @@ namespace Core_Health_and_Fitness.Controllers
         // GET: Clients
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Clients.Include(c => c.IdentityUser);
+            var applicationDbContext = _context.Clients.Include(c => c.ClientProfile).Include(c => c.IdentityUser).Include(c => c.PersonalTrainer);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -37,7 +37,9 @@ namespace Core_Health_and_Fitness.Controllers
             }
 
             var client = await _context.Clients
+                .Include(c => c.ClientProfile)
                 .Include(c => c.IdentityUser)
+                .Include(c => c.PersonalTrainer)
                 .FirstOrDefaultAsync(m => m.ClientId == id);
             if (client == null)
             {
@@ -50,10 +52,15 @@ namespace Core_Health_and_Fitness.Controllers
         // GET: Clients/Create
         public IActionResult Create()
         {
-            Client client = new Client();
+            Client client = new Client()
+            {
+                ClientProfile = new ClientProfile()
+            };
+
+            ViewData["ClientProfileId"] = new SelectList(_context.ClientProfile, "ClientProfileId", "ClientProfileId");
+            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
+            ViewData["PersonalTrainerId"] = new SelectList(_context.PersonalTrainers, "PersonalTrainerId", "PersonalTrainerId");
             return View(client);
-            //ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
-            //return View();
         }
 
         // POST: Clients/Create
@@ -61,19 +68,22 @@ namespace Core_Health_and_Fitness.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ClientId,FirstName,LastName,StreetAddress,ZipCode,City,State,IdentityUserId")] Client client)
+        public async Task<IActionResult> Create([Bind("ClientId,FirstName,LastName,StreetAddress,ZipCode,City,State,IdentityUserId,PersonalTrainerId,ClientProfileId")] Client client)
         {
             if (ModelState.IsValid)
             {
-
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 client.IdentityUserId = userId;
+
+                client.ClientProfile = _context.ClientProfile.Find(client.ClientProfileId);
 
                 _context.Add(client);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ClientProfileId"] = new SelectList(_context.ClientProfile, "ClientProfileId", "ClientProfileId", client.ClientProfileId);
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", client.IdentityUserId);
+            ViewData["PersonalTrainerId"] = new SelectList(_context.PersonalTrainers, "PersonalTrainerId", "PersonalTrainerId", client.PersonalTrainerId);
             return View(client);
         }
 
@@ -90,7 +100,9 @@ namespace Core_Health_and_Fitness.Controllers
             {
                 return NotFound();
             }
+            ViewData["ClientProfileId"] = new SelectList(_context.ClientProfile, "ClientProfileId", "ClientProfileId", client.ClientProfileId);
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", client.IdentityUserId);
+            ViewData["PersonalTrainerId"] = new SelectList(_context.PersonalTrainers, "PersonalTrainerId", "PersonalTrainerId", client.PersonalTrainerId);
             return View(client);
         }
 
@@ -99,7 +111,7 @@ namespace Core_Health_and_Fitness.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ClientId,FirstName,LastName,StreetAddress,ZipCode,City,State,IdentityUserId")] Client client)
+        public async Task<IActionResult> Edit(int id, [Bind("ClientId,FirstName,LastName,StreetAddress,ZipCode,City,State,IdentityUserId,PersonalTrainerId,ClientProfileId")] Client client)
         {
             if (id != client.ClientId)
             {
@@ -126,7 +138,9 @@ namespace Core_Health_and_Fitness.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewData["ClientProfileId"] = new SelectList(_context.ClientProfile, "ClientProfileId", "ClientProfileId", client.ClientProfileId);
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", client.IdentityUserId);
+            ViewData["PersonalTrainerId"] = new SelectList(_context.PersonalTrainers, "PersonalTrainerId", "PersonalTrainerId", client.PersonalTrainerId);
             return View(client);
         }
 
@@ -139,7 +153,9 @@ namespace Core_Health_and_Fitness.Controllers
             }
 
             var client = await _context.Clients
+                .Include(c => c.ClientProfile)
                 .Include(c => c.IdentityUser)
+                .Include(c => c.PersonalTrainer)
                 .FirstOrDefaultAsync(m => m.ClientId == id);
             if (client == null)
             {
@@ -165,6 +181,7 @@ namespace Core_Health_and_Fitness.Controllers
             return _context.Clients.Any(e => e.ClientId == id);
         }
 
+
         public async Task<IActionResult> PersonalTrainersList()
         {
             var personalTrainersList = _context.PersonalTrainers.Include(p => p.IdentityUser);
@@ -184,40 +201,63 @@ namespace Core_Health_and_Fitness.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CreateClientProfile([Bind("ClientProfileId,Age,Height,Weight,MedicalProvider,MedicalHistory,FitnessGoal,IdentityUserId")] ClientProfile clientProfile)
+        public async Task<IActionResult> CreateClientProfile([Bind("ClientProfileId,Age,Height,Weight,MedicalProvider,MedicalHistory,FitnessGoal")] ClientProfile clientProfile)
         {
             if (ModelState.IsValid)
             {
-                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-                clientProfile.IdentityUserId = userId;
+                //var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                //clientProfile.IdentityUserId = userId;
 
-                var client = _context.ClientProfile.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+                //var client = _context.ClientProfile.Where(c => c.IdentityUserId == userId).SingleOrDefault();
 
                 _context.Add(clientProfile);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", clientProfile.IdentityUserId);
+            //ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", clientProfile.IdentityUserId);
             return View(clientProfile);
         }
 
-        public async Task<IActionResult> ViewDietPlan()
+        public IActionResult ViewClientProfile()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var client = _context.Clients.Where(c => c.IdentityUserId == userId).SingleOrDefault();
 
-            var applicationDbContext = _context.DietPlan.Where(c => c.DietPlanID == client.ClientId);
-            return View(await applicationDbContext.ToListAsync());
+            var clientProfiles = _context.ClientProfile.Where(c => c.ClientProfileId == client.ClientId);
+            return View(clientProfiles);
+
+            //var clientProfiles = _context.ClientProfile.Where(p => p.IdentityUser);
+            //return View(await clientProfiles.ToListAsync());
+
+            //var personalTrainersList = _context.PersonalTrainers.Include(p => p.IdentityUser);
+
+            //return View(await personalTrainersList.ToListAsync());
+
+            //var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //var client = _context.Clients.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            //var clientProfile = await _context.ClientProfile.Where(c => c.IdentityUserId == client.ClientId).ToList();
+
+
+            //return View(clientProfile);
         }
 
-        public async Task<IActionResult> ViewWorkoutSchedule()
-        {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var client = _context.Clients.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+        //public async Task<IActionResult> ViewDietPlan()
+        //{
+        //    var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //    var client = _context.Clients.Where(c => c.IdentityUserId == userId).SingleOrDefault();
 
-            var applicationDbContext = _context.WorkoutSchedule.Where(c => c.ScheduleID == client.ClientId);
-            return View(await applicationDbContext.ToListAsync());
-        }
+        //    var applicationDbContext = _context.DietPlan.Where(c => c.DietPlanID == client.ClientId);
+        //    return View(await applicationDbContext.ToListAsync());
+        //}
+
+        //public async Task<IActionResult> ViewWorkoutSchedule()
+        //{
+        //    var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+        //    var client = _context.Clients.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+
+        //    var applicationDbContext = _context.WorkoutSchedule.Where(c => c.ScheduleID == client.ClientId);
+        //    return View(await applicationDbContext.ToListAsync());
+        //}
 
         public ActionResult Map(int id)
         {
@@ -237,5 +277,6 @@ namespace Core_Health_and_Fitness.Controllers
 
             return View(address);
         }
+
     }
 }

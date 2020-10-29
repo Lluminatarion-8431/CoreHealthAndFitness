@@ -25,13 +25,6 @@ namespace Core_Health_and_Fitness.Models
         [Display(Name = "Fat Intake(grams)")]
         public int Fat { get; set; }
 
-        [ForeignKey("Client")]
-        public int ClientId { get; set; }
-        public Client Client { get; set; }
-
-        [ForeignKey("IdentityUser")]
-        public string IdentityUserId { get; set; }
-        public IdentityUser IdentityUser { get; set; }
-
+        
     }
 }

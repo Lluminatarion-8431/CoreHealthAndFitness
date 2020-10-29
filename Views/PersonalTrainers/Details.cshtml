@@ -47,7 +47,7 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.MedicalProviders)
         </dd>
-        @*<dt class = "col-sm-2">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.Lat)
         </dt>
         <dd class = "col-sm-10">
@@ -64,7 +64,19 @@
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.IdentityUser.Id)
-        </dd>*@
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.DietPlan)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.DietPlan.DietPlanID)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.WorkoutSchedule)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.WorkoutSchedule.ScheduleID)
+        </dd>
     </dl>
 </div>
 <div>

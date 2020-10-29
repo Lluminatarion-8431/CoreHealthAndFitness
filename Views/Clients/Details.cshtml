@@ -47,12 +47,24 @@
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.State)
         </dd>
-        @*<dt class = "col-sm-2">
+        <dt class = "col-sm-2">
             @Html.DisplayNameFor(model => model.IdentityUser)
         </dt>
         <dd class = "col-sm-10">
             @Html.DisplayFor(model => model.IdentityUser.Id)
-        </dd>*@
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.PersonalTrainer)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.PersonalTrainer.PersonalTrainerId)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.ClientProfile)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.ClientProfile.ClientProfileId)
+        </dd>
     </dl>
 </div>
 <div>

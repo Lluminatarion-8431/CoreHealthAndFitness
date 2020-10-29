@@ -39,6 +39,12 @@ namespace Core_Health_and_Fitness.Models
         public string IdentityUserId { get; set; }
         public IdentityUser IdentityUser { get; set; }
 
+        [ForeignKey("DietPlan")]
+        public int DietPlanID { get; set; }
+        public DietPlan DietPlan { get; set; }
 
+        [ForeignKey("WorkoutSchedule")]
+        public int ScheduleID { get; set; }
+        public WorkoutSchedule WorkoutSchedule { get; set; }
     }
 }
