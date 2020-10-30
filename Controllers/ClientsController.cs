@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Core_Health_and_Fitness.Controllers
 {
-    [Authorize(Roles = "CLient")]
+    //[Authorize(Roles = "CLient")]
     public class ClientsController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -41,6 +41,9 @@ namespace Core_Health_and_Fitness.Controllers
             var PersonalTrainers = await _context.PersonalTrainers
                  .Include(c => c.IdentityUser)
                  .FirstOrDefaultAsync(m => m.PersonalTrainerId == id);
+
+            ViewData["APIKey"] = PrivateAPIKey.GoogleAPIKey;
+
             if (PersonalTrainers == null)
             {
                 return NotFound();
@@ -167,6 +170,7 @@ namespace Core_Health_and_Fitness.Controllers
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             var client = await _context.Clients.FindAsync(id);
+
             _context.Clients.Remove(client);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -184,23 +188,23 @@ namespace Core_Health_and_Fitness.Controllers
             return View(personalTrainersList);
         }
 
-        public ActionResult Map(int id)
-        {
+        //public ActionResult Map(int id)
+        //{
 
-            PersonalTrainer address = new PersonalTrainer();
-            var locationService = new GoogleLocationService(apikey: "AIzaSyA-gzpHP98dkwr6NfIiPyRGdjAs38OexB8");
-            var personalTrainer = _context.PersonalTrainers.Find(id);
+        //    PersonalTrainer address = new PersonalTrainer();
+        //    var locationService = new GoogleLocationService(apikey: "");
+        //    var personalTrainer = _context.PersonalTrainers.Find(id);
 
-            address.AddressLine = personalTrainer.AddressLine;
-            address.State = personalTrainer.State;
-            address.ZipCode = personalTrainer.ZipCode;
+        //    address.AddressLine = personalTrainer.AddressLine;
+        //    address.State = personalTrainer.State;
+        //    address.ZipCode = personalTrainer.ZipCode;
 
-            var fullAddress = $"{address.AddressLine} {address.State} {address.ZipCode}";
-            var point = locationService.GetLatLongFromAddress(fullAddress);
-            address.Lat = point.Latitude;
-            address.Long = point.Longitude;
+        //    var fullAddress = $"{address.AddressLine} {address.State} {address.ZipCode}";
+        //    var point = locationService.GetLatLongFromAddress(fullAddress);
+        //    address.Lat = point.Latitude;
+        //    address.Long = point.Longitude;
 
-            return View(address);
-        }
+        //    return View(address);
+        //}
     }
 }

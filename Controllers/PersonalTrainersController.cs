@@ -13,7 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace Core_Health_and_Fitness.Controllers
 {
-    [Authorize(Roles = "PersonalTrainer")]
+    //[Authorize(Roles = "PersonalTrainer")]
     public class PersonalTrainersController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -38,6 +38,8 @@ namespace Core_Health_and_Fitness.Controllers
             //}
 
             //return View(personalTrainer);
+
+            //var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var applicationDbContext = _context.PersonalTrainers.Include(p => p.IdentityUser);
             return View(await applicationDbContext.ToListAsync());
@@ -83,9 +85,9 @@ namespace Core_Health_and_Fitness.Controllers
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 personalTrainer.IdentityUserId = userId;
 
-                var personalTrainerWithLatLong = await _geocodingService.GetGeocoding(personalTrainer);
+                //var personalTrainerWithLatLong = await _geocodingService.GetGeocoding(personalTrainer);
 
-                _context.Add(personalTrainerWithLatLong);
+                _context.Add(personalTrainer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
