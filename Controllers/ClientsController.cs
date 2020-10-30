@@ -50,7 +50,11 @@ namespace Core_Health_and_Fitness.Controllers
         // GET: Clients/Create
         public IActionResult Create()
         {
-            Client client = new Client();
+            var personalTrainers = _context.PersonalTrainers.ToList();
+            Client client = new Client()
+            {
+                PersonalTrainers = new SelectList(personalTrainers, "Id", "Name")
+            };
 
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
             ViewData["PersonalTrainerId"] = new SelectList(_context.PersonalTrainers, "PersonalTrainerId", "PersonalTrainerId");
@@ -87,6 +91,7 @@ namespace Core_Health_and_Fitness.Controllers
             }
 
             var client = await _context.Clients.FindAsync(id);
+            client.PersonalTrainers = new SelectList(_context.PersonalTrainers.ToList(), "Id", "Name");
             if (client == null)
             {
                 return NotFound();

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -54,7 +55,11 @@ namespace Core_Health_and_Fitness.Models
         
 
         [ForeignKey("PersonalTrainer")]
+        [Display(Name = "Personal Trainers")]
         public int PersonalTrainerId { get; set; }
         public PersonalTrainer PersonalTrainer { get; set; }
+
+        [NotMapped]
+        public SelectList PersonalTrainers { get; set; }
     }
 }
