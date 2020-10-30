@@ -30,13 +30,13 @@ namespace Core_Health_and_Fitness.Models
         public double Lat { get; set; }
         public double Long { get; set; }
 
-        [Display(Name = "Diet Plan (in grams/calories)")]
+        [Display(Name = "Calories")]
         public int CaloricIntake { get; set; }
-        public int Protein { get; set; }
-        public int Carbohydrates { get; set; }
-        public int Fat { get; set; }
+        public int ProteinInGrams { get; set; }
+        public int CarbohydratesInGrams { get; set; }
+        public int FatInGram { get; set; }
 
-        [Display(Name = "Workout Schedule")]
+        [Display(Name = "Monday")]
         public string Monday { get; set; }
         public string Tuesday { get; set; }
         public string Wednsday { get; set; }
@@ -49,5 +49,7 @@ namespace Core_Health_and_Fitness.Models
         [ForeignKey("IdentityUser")]
         public string IdentityUserId { get; set; }
         public IdentityUser IdentityUser { get; set; }
+
+
     }
 }

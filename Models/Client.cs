@@ -26,7 +26,7 @@ namespace Core_Health_and_Fitness.Models
         public string City { get; set; }
         public string State { get; set; }
 
-        [Display(Name = "Client Profile")]
+        [Display(Name = "Age")]
         public int Age { get; set; }
         public double Height { get; set; }
         public double Weight { get; set; }
@@ -45,7 +45,7 @@ namespace Core_Health_and_Fitness.Models
         [Display(Name = "Ending weight")]
         public string WeightGoal { get; set; }
 
-        [Display(Name = "Medical Information (if applicable or N/A)")]
+        [Display(Name = "Medical Provider (if applicable or N/A)")]
         public string MedicalProvider { get; set; }
         public string PastInjuries { get; set; }
         

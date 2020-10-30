@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Core_Health_and_Fitness.Data;
 using Core_Health_and_Fitness.Models;
 using System.Security.Claims;
+using GoogleMaps.LocationServices;
 
 namespace Core_Health_and_Fitness.Controllers
 {
@@ -35,22 +36,22 @@ namespace Core_Health_and_Fitness.Controllers
                 return NotFound();
             }
 
-            var client = await _context.Clients
-                .Include(c => c.IdentityUser)
-                .Include(c => c.PersonalTrainer)
-                .FirstOrDefaultAsync(m => m.ClientId == id);
-            if (client == null)
+            var PersonalTrainers = await _context.PersonalTrainers
+                 .Include(c => c.IdentityUser)
+                 .FirstOrDefaultAsync(m => m.PersonalTrainerId == id);
+            if (PersonalTrainers == null)
             {
                 return NotFound();
             }
 
-            return View(client);
+            return View(PersonalTrainers);
         }
 
         // GET: Clients/Create
         public IActionResult Create()
         {
             var personalTrainers = _context.PersonalTrainers.ToList();
+
             Client client = new Client()
             {
                 PersonalTrainers = new SelectList(personalTrainers, "Id", "Name")
@@ -73,6 +74,7 @@ namespace Core_Health_and_Fitness.Controllers
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 client.IdentityUserId = userId;
 
+
                 _context.Add(client);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -91,7 +93,6 @@ namespace Core_Health_and_Fitness.Controllers
             }
 
             var client = await _context.Clients.FindAsync(id);
-            client.PersonalTrainers = new SelectList(_context.PersonalTrainers.ToList(), "Id", "Name");
             if (client == null)
             {
                 return NotFound();
@@ -174,11 +175,30 @@ namespace Core_Health_and_Fitness.Controllers
             return _context.Clients.Any(e => e.ClientId == id);
         }
 
-        public async Task<IActionResult> PersonalTrainersList()
+        public IActionResult PersonalTrainersList()
         {
-            var personalTrainersList = _context.PersonalTrainers.Include(p => p.IdentityUser);
+            var personalTrainersList = _context.PersonalTrainers.ToList();
 
-            return View(await personalTrainersList.ToListAsync());
+            return View(personalTrainersList);
+        }
+
+        public ActionResult Map(int id)
+        {
+
+            PersonalTrainer address = new PersonalTrainer();
+            var locationService = new GoogleLocationService(apikey: "AIzaSyCcbQClo7NS9uH8VIQ7lMwc_FuUX2nVagg");
+            var personalTrainer = _context.PersonalTrainers.Find(id);
+
+            address.AddressLine = personalTrainer.AddressLine;
+            address.State = personalTrainer.State;
+            address.ZipCode = personalTrainer.ZipCode;
+
+            var fullAddress = $"{address.AddressLine} {address.State} {address.ZipCode}";
+            var point = locationService.GetLatLongFromAddress(fullAddress);
+            address.Lat = point.Latitude;
+            address.Long = point.Longitude;
+
+            return View(address);
         }
     }
 }

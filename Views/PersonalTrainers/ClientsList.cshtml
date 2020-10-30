@@ -1,11 +1,11 @@
 ﻿@model IEnumerable<Core_Health_and_Fitness.Models.Client>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "ClientsList";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Index</h1>
+<h1>ClientsList</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -122,11 +122,7 @@
                 @Html.DisplayFor(modelItem => item.PersonalTrainer.PersonalTrainerId)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.ClientId">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.ClientId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ClientId">Delete</a> |
-                <a asp-action="PersonalTrainersList" asp-route-id="@item.ClientId">Personal Trainers List</a> |
-                <a asp-action="Map" asp-route-id="@item.ClientId">Personal Trainer Location</a> |
+                @Html.ActionLink("Details", "Details", new { id = item.ClientId })
             </td>
         </tr>
 }

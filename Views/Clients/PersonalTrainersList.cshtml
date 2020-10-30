@@ -1,0 +1,148 @@
+﻿@model IEnumerable<Core_Health_and_Fitness.Models.PersonalTrainer>
+
+@{
+    ViewData["Title"] = "PersonalTrainersList";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>PersonalTrainersList</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.AddressLine)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.State)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ZipCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MedicalProviders)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Lat)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Long)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CaloricIntake)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ProteinInGrams)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CarbohydratesInGrams)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FatInGram)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Monday)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tuesday)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Wednsday)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Thursday)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Friday)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Saturday)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Sunday)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdentityUser)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AddressLine)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.State)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ZipCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MedicalProviders)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Lat)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Long)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CaloricIntake)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ProteinInGrams)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CarbohydratesInGrams)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FatInGram)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Monday)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tuesday)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Wednsday)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Thursday)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Friday)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Saturday)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Sunday)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdentityUser.Id)
+            </td>
+            <td>
+                @Html.ActionLink("Details", "Details", new { id = item.PersonalTrainerId })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

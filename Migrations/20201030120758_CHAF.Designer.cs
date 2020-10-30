@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Core_Health_and_Fitness.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201030041117_CHAF")]
+    [Migration("20201030120758_CHAF")]
     partial class CHAF
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -101,10 +101,10 @@ namespace Core_Health_and_Fitness.Migrations
                     b.Property<int>("CaloricIntake")
                         .HasColumnType("int");
 
-                    b.Property<int>("Carbohydrates")
+                    b.Property<int>("CarbohydratesInGrams")
                         .HasColumnType("int");
 
-                    b.Property<int>("Fat")
+                    b.Property<int>("FatInGram")
                         .HasColumnType("int");
 
                     b.Property<string>("FirstName")
@@ -131,7 +131,7 @@ namespace Core_Health_and_Fitness.Migrations
                     b.Property<string>("Monday")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Protein")
+                    b.Property<int>("ProteinInGrams")
                         .HasColumnType("int");
 
                     b.Property<string>("Saturday")
@@ -191,15 +191,15 @@ namespace Core_Health_and_Fitness.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "ae72d03b-a53d-42d5-ba56-3a666e79e321",
-                            ConcurrencyStamp = "e1aedd37-608e-487e-94b9-64f58f48d208",
+                            Id = "15f55374-a80a-4fee-9449-fcd006c4ffd4",
+                            ConcurrencyStamp = "0c4a95ea-ac3a-436e-9019-a10c8e29a9e3",
                             Name = "Client",
                             NormalizedName = "CLIENT"
                         },
                         new
                         {
-                            Id = "bc311535-8a0b-400e-ad7a-2f1cd2c3b8cb",
-                            ConcurrencyStamp = "02c617dd-b91f-4f69-a604-d3083326f5c9",
+                            Id = "404ed9a6-71a8-4c68-937e-6fc2e43b5ad2",
+                            ConcurrencyStamp = "93b454f1-878a-46b8-ac73-93539abdd360",
                             Name = "PersonalTrainer",
                             NormalizedName = "PERSONALTRAINER"
                         });

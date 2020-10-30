@@ -167,9 +167,9 @@ namespace Core_Health_and_Fitness.Migrations
                     Lat = table.Column<double>(nullable: false),
                     Long = table.Column<double>(nullable: false),
                     CaloricIntake = table.Column<int>(nullable: false),
-                    Protein = table.Column<int>(nullable: false),
-                    Carbohydrates = table.Column<int>(nullable: false),
-                    Fat = table.Column<int>(nullable: false),
+                    ProteinInGrams = table.Column<int>(nullable: false),
+                    CarbohydratesInGrams = table.Column<int>(nullable: false),
+                    FatInGram = table.Column<int>(nullable: false),
                     Monday = table.Column<string>(nullable: true),
                     Tuesday = table.Column<string>(nullable: true),
                     Wednsday = table.Column<string>(nullable: true),
@@ -234,12 +234,12 @@ namespace Core_Health_and_Fitness.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "ae72d03b-a53d-42d5-ba56-3a666e79e321", "e1aedd37-608e-487e-94b9-64f58f48d208", "Client", "CLIENT" });
+                values: new object[] { "15f55374-a80a-4fee-9449-fcd006c4ffd4", "0c4a95ea-ac3a-436e-9019-a10c8e29a9e3", "Client", "CLIENT" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "bc311535-8a0b-400e-ad7a-2f1cd2c3b8cb", "02c617dd-b91f-4f69-a604-d3083326f5c9", "PersonalTrainer", "PERSONALTRAINER" });
+                values: new object[] { "404ed9a6-71a8-4c68-937e-6fc2e43b5ad2", "93b454f1-878a-46b8-ac73-93539abdd360", "PersonalTrainer", "PERSONALTRAINER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

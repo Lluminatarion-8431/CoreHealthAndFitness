@@ -23,6 +23,17 @@ namespace Core_Health_and_Fitness.Controllers
         // GET: PersonalTrainers
         public async Task<IActionResult> Index()
         {
+            //var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            //var personalTrainer = _context.PersonalTrainers.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+
+            //if (personalTrainer == null)
+            //{
+            //    return RedirectToAction("Create");
+            //}
+
+            //return View(personalTrainer);
+
             var applicationDbContext = _context.PersonalTrainers.Include(p => p.IdentityUser);
             return View(await applicationDbContext.ToListAsync());
         }
@@ -35,15 +46,15 @@ namespace Core_Health_and_Fitness.Controllers
                 return NotFound();
             }
 
-            var personalTrainer = await _context.PersonalTrainers
+            var client = await _context.Clients
                 .Include(p => p.IdentityUser)
-                .FirstOrDefaultAsync(m => m.PersonalTrainerId == id);
-            if (personalTrainer == null)
+                .FirstOrDefaultAsync(m => m.ClientId == id);
+            if (client == null)
             {
                 return NotFound();
             }
 
-            return View(personalTrainer);
+            return View(client);
         }
 
         // GET: PersonalTrainers/Create
@@ -60,7 +71,7 @@ namespace Core_Health_and_Fitness.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PersonalTrainerId,FirstName,LastName,AddressLine,State,ZipCode,MedicalProviders,Lat,Long,CaloricIntake,Protein,Carbohydrates,Fat,Monday,Tuesday,Wednsday,Thursday,Friday,Saturday,Sunday,IdentityUserId")] PersonalTrainer personalTrainer)
+        public async Task<IActionResult> Create([Bind("PersonalTrainerId,FirstName,LastName,AddressLine,State,ZipCode,MedicalProviders,Lat,Long,CaloricIntake,ProteinInGrams,CarbohydratesInGrams,FatInGram,Monday,Tuesday,Wednsday,Thursday,Friday,Saturday,Sunday,IdentityUserId")] PersonalTrainer personalTrainer)
         {
             if (ModelState.IsValid)
             {
@@ -97,7 +108,7 @@ namespace Core_Health_and_Fitness.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PersonalTrainerId,FirstName,LastName,AddressLine,State,ZipCode,MedicalProviders,Lat,Long,CaloricIntake,Protein,Carbohydrates,Fat,Monday,Tuesday,Wednsday,Thursday,Friday,Saturday,Sunday,IdentityUserId")] PersonalTrainer personalTrainer)
+        public async Task<IActionResult> Edit(int id, [Bind("PersonalTrainerId,FirstName,LastName,AddressLine,State,ZipCode,MedicalProviders,Lat,Long,CaloricIntake,ProteinInGrams,CarbohydratesInGrams,FatInGram,Monday,Tuesday,Wednsday,Thursday,Friday,Saturday,Sunday,IdentityUserId")] PersonalTrainer personalTrainer)
         {
             if (id != personalTrainer.PersonalTrainerId)
             {
@@ -162,5 +173,13 @@ namespace Core_Health_and_Fitness.Controllers
         {
             return _context.PersonalTrainers.Any(e => e.PersonalTrainerId == id);
         }
+
+        public IActionResult ClientsList()
+        {
+            var clientsList = _context.Clients.ToList();
+
+            return View(clientsList);
+        }
+
     }
 }

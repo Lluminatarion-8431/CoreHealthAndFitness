@@ -41,13 +41,13 @@
                 @Html.DisplayNameFor(model => model.CaloricIntake)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Protein)
+                @Html.DisplayNameFor(model => model.ProteinInGrams)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Carbohydrates)
+                @Html.DisplayNameFor(model => model.CarbohydratesInGrams)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Fat)
+                @Html.DisplayNameFor(model => model.FatInGram)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Monday)
@@ -108,13 +108,13 @@
                     @Html.DisplayFor(modelItem => item.CaloricIntake)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Protein)
+                    @Html.DisplayFor(modelItem => item.ProteinInGrams)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Carbohydrates)
+                    @Html.DisplayFor(modelItem => item.CarbohydratesInGrams)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Fat)
+                    @Html.DisplayFor(modelItem => item.FatInGram)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Monday)
@@ -143,12 +143,14 @@
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.PersonalTrainerId">Edit</a> |
                     <a asp-action="Details" asp-route-id="@item.PersonalTrainerId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.PersonalTrainerId">Delete</a>
+                    <a asp-action="Delete" asp-route-id="@item.PersonalTrainerId">Delete</a> |
+                    <a asp-action="ClientsList" asp-route-id="@item.PersonalTrainerId">Clients List</a> |
                 </td>
             </tr>
         }
     </tbody>
 </table>
+
 <script src="https://platform.fatsecret.com/js?key=e3c56bd3bbe84195b3e50e4ff4141eef"></script>
 <div id="my_container" class="fatsecret_container"></div>
 <script>
