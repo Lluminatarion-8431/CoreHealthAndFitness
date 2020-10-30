@@ -186,7 +186,7 @@ namespace Core_Health_and_Fitness.Controllers
         {
 
             PersonalTrainer address = new PersonalTrainer();
-            var locationService = new GoogleLocationService(apikey: "AIzaSyCcbQClo7NS9uH8VIQ7lMwc_FuUX2nVagg");
+            var locationService = new GoogleLocationService(apikey: "AIzaSyA-gzpHP98dkwr6NfIiPyRGdjAs38OexB8");
             var personalTrainer = _context.PersonalTrainers.Find(id);
 
             address.AddressLine = personalTrainer.AddressLine;

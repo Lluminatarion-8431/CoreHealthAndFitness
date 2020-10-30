@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Core_Health_and_Fitness.Models;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -6,11 +7,11 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace Core_Health_and_Fitness.Models
+namespace Core_Health_and_Fitness.Services
 {
-    public class BMI
+    public class BMIService
     {
-        public BMI()
+        public BMIService()
         {
 
         }
