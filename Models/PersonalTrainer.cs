@@ -19,13 +19,9 @@ namespace Core_Health_and_Fitness.Models
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        [Display(Name = "Street Address")]
+        [Display(Name = "Full Address(required)")]
         public string AddressLine { get; set; }
-
-        [Display(Name = "State")]
         public string State { get; set; }
-
-        [Display(Name = "Zip Code")]
         public int ZipCode { get; set; }
 
         [Display(Name = "List of Known health care physicians")]
@@ -34,17 +30,24 @@ namespace Core_Health_and_Fitness.Models
         public double Lat { get; set; }
         public double Long { get; set; }
 
+        [Display(Name = "Diet Plan (in grams/calories)")]
+        public int CaloricIntake { get; set; }
+        public int Protein { get; set; }
+        public int Carbohydrates { get; set; }
+        public int Fat { get; set; }
+
+        [Display(Name = "Workout Schedule")]
+        public string Monday { get; set; }
+        public string Tuesday { get; set; }
+        public string Wednsday { get; set; }
+        public string Thursday { get; set; }
+        public string Friday { get; set; }
+        public string Saturday { get; set; }
+        public string Sunday { get; set; }
+
 
         [ForeignKey("IdentityUser")]
         public string IdentityUserId { get; set; }
         public IdentityUser IdentityUser { get; set; }
-
-        [ForeignKey("DietPlan")]
-        public int DietPlanID { get; set; }
-        public DietPlan DietPlan { get; set; }
-
-        [ForeignKey("WorkoutSchedule")]
-        public int ScheduleID { get; set; }
-        public WorkoutSchedule WorkoutSchedule { get; set; }
     }
 }

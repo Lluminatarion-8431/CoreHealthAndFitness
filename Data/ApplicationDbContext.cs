@@ -31,31 +31,10 @@ namespace Core_Health_and_Fitness.Data
                     NormalizedName = "PERSONALTRAINER"
                 }
             );
-            builder.Entity<ClientProfile>()
-               .HasData(new ClientProfile
-               {
-                   ClientProfileId = 1,
-               }
-           );
-            builder.Entity<DietPlan>()
-               .HasData(new DietPlan
-               {
-                   DietPlanID = 1,
-               }
-           );
-            builder.Entity<WorkoutSchedule>()
-                .HasData(new WorkoutSchedule
-                {
-                    ScheduleID = 1
-                }
-            );
         }
 
         public DbSet<Client> Clients { get; set; }
         public DbSet<PersonalTrainer> PersonalTrainers { get; set; }
-        public DbSet<ClientProfile> ClientProfile { get; set; }
-        public DbSet<DietPlan> DietPlan { get; set; }
-        public DbSet<WorkoutSchedule> WorkoutSchedule { get; set; }
 
     }
 }

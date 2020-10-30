@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Core_Health_and_Fitness.Migrations
 {
-    public partial class CHAF1 : Migration
+    public partial class CHAF : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,59 +44,6 @@ namespace Core_Health_and_Fitness.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ClientProfile",
-                columns: table => new
-                {
-                    ClientProfileId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Age = table.Column<int>(nullable: false),
-                    Height = table.Column<double>(nullable: false),
-                    Weight = table.Column<double>(nullable: false),
-                    MedicalProvider = table.Column<string>(nullable: true),
-                    MedicalHistory = table.Column<string>(nullable: true),
-                    FitnessGoal = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ClientProfile", x => x.ClientProfileId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "DietPlan",
-                columns: table => new
-                {
-                    DietPlanID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CaloricIntake = table.Column<int>(nullable: false),
-                    Protein = table.Column<int>(nullable: false),
-                    Carbohydrates = table.Column<int>(nullable: false),
-                    Fat = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_DietPlan", x => x.DietPlanID);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "WorkoutSchedule",
-                columns: table => new
-                {
-                    ScheduleID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Monday = table.Column<string>(nullable: true),
-                    Tuesday = table.Column<string>(nullable: true),
-                    Wednsday = table.Column<string>(nullable: true),
-                    Thursday = table.Column<string>(nullable: true),
-                    Friday = table.Column<string>(nullable: true),
-                    Saturday = table.Column<string>(nullable: true),
-                    Sunday = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_WorkoutSchedule", x => x.ScheduleID);
                 });
 
             migrationBuilder.CreateTable(
@@ -219,31 +166,28 @@ namespace Core_Health_and_Fitness.Migrations
                     MedicalProviders = table.Column<string>(nullable: true),
                     Lat = table.Column<double>(nullable: false),
                     Long = table.Column<double>(nullable: false),
-                    IdentityUserId = table.Column<string>(nullable: true),
-                    DietPlanID = table.Column<int>(nullable: false),
-                    ScheduleID = table.Column<int>(nullable: false)
+                    CaloricIntake = table.Column<int>(nullable: false),
+                    Protein = table.Column<int>(nullable: false),
+                    Carbohydrates = table.Column<int>(nullable: false),
+                    Fat = table.Column<int>(nullable: false),
+                    Monday = table.Column<string>(nullable: true),
+                    Tuesday = table.Column<string>(nullable: true),
+                    Wednsday = table.Column<string>(nullable: true),
+                    Thursday = table.Column<string>(nullable: true),
+                    Friday = table.Column<string>(nullable: true),
+                    Saturday = table.Column<string>(nullable: true),
+                    Sunday = table.Column<string>(nullable: true),
+                    IdentityUserId = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_PersonalTrainers", x => x.PersonalTrainerId);
-                    table.ForeignKey(
-                        name: "FK_PersonalTrainers_DietPlan_DietPlanID",
-                        column: x => x.DietPlanID,
-                        principalTable: "DietPlan",
-                        principalColumn: "DietPlanID",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_PersonalTrainers_AspNetUsers_IdentityUserId",
                         column: x => x.IdentityUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_PersonalTrainers_WorkoutSchedule_ScheduleID",
-                        column: x => x.ScheduleID,
-                        principalTable: "WorkoutSchedule",
-                        principalColumn: "ScheduleID",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -258,19 +202,21 @@ namespace Core_Health_and_Fitness.Migrations
                     ZipCode = table.Column<int>(nullable: false),
                     City = table.Column<string>(nullable: true),
                     State = table.Column<string>(nullable: true),
+                    Age = table.Column<int>(nullable: false),
+                    Height = table.Column<double>(nullable: false),
+                    Weight = table.Column<double>(nullable: false),
+                    FitnessGoal = table.Column<string>(nullable: true),
+                    StartDate = table.Column<DateTime>(nullable: true),
+                    EndDate = table.Column<DateTime>(nullable: true),
+                    WeightGoal = table.Column<string>(nullable: true),
+                    MedicalProvider = table.Column<string>(nullable: true),
+                    PastInjuries = table.Column<string>(nullable: true),
                     IdentityUserId = table.Column<string>(nullable: true),
-                    PersonalTrainerId = table.Column<int>(nullable: false),
-                    ClientProfileId = table.Column<int>(nullable: false)
+                    PersonalTrainerId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Clients", x => x.ClientId);
-                    table.ForeignKey(
-                        name: "FK_Clients_ClientProfile_ClientProfileId",
-                        column: x => x.ClientProfileId,
-                        principalTable: "ClientProfile",
-                        principalColumn: "ClientProfileId",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Clients_AspNetUsers_IdentityUserId",
                         column: x => x.IdentityUserId,
@@ -288,26 +234,12 @@ namespace Core_Health_and_Fitness.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[,]
-                {
-                    { "413b92d6-f7ec-4d69-9a19-5c02451a4603", "9fd39039-9880-45f6-a8a6-b7762945f529", "Client", "CLIENT" },
-                    { "3a2bc270-4e28-4bd8-95c0-09f56892f036", "961ce96a-7201-47ae-85b3-f39c21d73f98", "PersonalTrainer", "PERSONALTRAINER" }
-                });
+                values: new object[] { "ae72d03b-a53d-42d5-ba56-3a666e79e321", "e1aedd37-608e-487e-94b9-64f58f48d208", "Client", "CLIENT" });
 
             migrationBuilder.InsertData(
-                table: "ClientProfile",
-                columns: new[] { "ClientProfileId", "Age", "FitnessGoal", "Height", "MedicalHistory", "MedicalProvider", "Weight" },
-                values: new object[] { 1, 0, null, 0.0, null, null, 0.0 });
-
-            migrationBuilder.InsertData(
-                table: "DietPlan",
-                columns: new[] { "DietPlanID", "CaloricIntake", "Carbohydrates", "Fat", "Protein" },
-                values: new object[] { 1, 0, 0, 0, 0 });
-
-            migrationBuilder.InsertData(
-                table: "WorkoutSchedule",
-                columns: new[] { "ScheduleID", "Friday", "Monday", "Saturday", "Sunday", "Thursday", "Tuesday", "Wednsday" },
-                values: new object[] { 1, null, null, null, null, null, null, null });
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "bc311535-8a0b-400e-ad7a-2f1cd2c3b8cb", "02c617dd-b91f-4f69-a604-d3083326f5c9", "PersonalTrainer", "PERSONALTRAINER" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -349,11 +281,6 @@ namespace Core_Health_and_Fitness.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Clients_ClientProfileId",
-                table: "Clients",
-                column: "ClientProfileId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Clients_IdentityUserId",
                 table: "Clients",
                 column: "IdentityUserId");
@@ -364,19 +291,9 @@ namespace Core_Health_and_Fitness.Migrations
                 column: "PersonalTrainerId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_PersonalTrainers_DietPlanID",
-                table: "PersonalTrainers",
-                column: "DietPlanID");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_PersonalTrainers_IdentityUserId",
                 table: "PersonalTrainers",
                 column: "IdentityUserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_PersonalTrainers_ScheduleID",
-                table: "PersonalTrainers",
-                column: "ScheduleID");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -403,19 +320,10 @@ namespace Core_Health_and_Fitness.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "ClientProfile");
-
-            migrationBuilder.DropTable(
                 name: "PersonalTrainers");
 
             migrationBuilder.DropTable(
-                name: "DietPlan");
-
-            migrationBuilder.DropTable(
                 name: "AspNetUsers");
-
-            migrationBuilder.DropTable(
-                name: "WorkoutSchedule");
         }
     }
 }

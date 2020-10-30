@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Core_Health_and_Fitness.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20201029143806_CHAF1")]
-    partial class CHAF1
+    [Migration("20201030041117_CHAF")]
+    partial class CHAF
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -28,53 +28,17 @@ namespace Core_Health_and_Fitness.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("Age")
+                        .HasColumnType("int");
+
                     b.Property<string>("City")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ClientProfileId")
-                        .HasColumnType("int");
+                    b.Property<DateTime?>("EndDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("IdentityUserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PersonalTrainerId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("State")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StreetAddress")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ZipCode")
-                        .HasColumnType("int");
-
-                    b.HasKey("ClientId");
-
-                    b.HasIndex("ClientProfileId");
-
-                    b.HasIndex("IdentityUserId");
-
-                    b.HasIndex("PersonalTrainerId");
-
-                    b.ToTable("Clients");
-                });
-
-            modelBuilder.Entity("Core_Health_and_Fitness.Models.ClientProfile", b =>
-                {
-                    b.Property<int>("ClientProfileId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("Age")
-                        .HasColumnType("int");
 
                     b.Property<string>("FitnessGoal")
                         .HasColumnType("nvarchar(max)");
@@ -82,61 +46,46 @@ namespace Core_Health_and_Fitness.Migrations
                     b.Property<double>("Height")
                         .HasColumnType("float");
 
-                    b.Property<string>("MedicalHistory")
+                    b.Property<string>("IdentityUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("MedicalProvider")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("PastInjuries")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PersonalTrainerId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("StartDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("State")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StreetAddress")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<double>("Weight")
                         .HasColumnType("float");
 
-                    b.HasKey("ClientProfileId");
+                    b.Property<string>("WeightGoal")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("ClientProfile");
-
-                    b.HasData(
-                        new
-                        {
-                            ClientProfileId = 1,
-                            Age = 0,
-                            Height = 0.0,
-                            Weight = 0.0
-                        });
-                });
-
-            modelBuilder.Entity("Core_Health_and_Fitness.Models.DietPlan", b =>
-                {
-                    b.Property<int>("DietPlanID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("CaloricIntake")
+                    b.Property<int>("ZipCode")
                         .HasColumnType("int");
 
-                    b.Property<int>("Carbohydrates")
-                        .HasColumnType("int");
+                    b.HasKey("ClientId");
 
-                    b.Property<int>("Fat")
-                        .HasColumnType("int");
+                    b.HasIndex("IdentityUserId");
 
-                    b.Property<int>("Protein")
-                        .HasColumnType("int");
+                    b.HasIndex("PersonalTrainerId");
 
-                    b.HasKey("DietPlanID");
-
-                    b.ToTable("DietPlan");
-
-                    b.HasData(
-                        new
-                        {
-                            DietPlanID = 1,
-                            CaloricIntake = 0,
-                            Carbohydrates = 0,
-                            Fat = 0,
-                            Protein = 0
-                        });
+                    b.ToTable("Clients");
                 });
 
             modelBuilder.Entity("Core_Health_and_Fitness.Models.PersonalTrainer", b =>
@@ -149,10 +98,19 @@ namespace Core_Health_and_Fitness.Migrations
                     b.Property<string>("AddressLine")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("DietPlanID")
+                    b.Property<int>("CaloricIntake")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Carbohydrates")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Fat")
                         .HasColumnType("int");
 
                     b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Friday")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("IdentityUserId")
@@ -170,40 +128,16 @@ namespace Core_Health_and_Fitness.Migrations
                     b.Property<string>("MedicalProviders")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ScheduleID")
-                        .HasColumnType("int");
-
-                    b.Property<string>("State")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ZipCode")
-                        .HasColumnType("int");
-
-                    b.HasKey("PersonalTrainerId");
-
-                    b.HasIndex("DietPlanID");
-
-                    b.HasIndex("IdentityUserId");
-
-                    b.HasIndex("ScheduleID");
-
-                    b.ToTable("PersonalTrainers");
-                });
-
-            modelBuilder.Entity("Core_Health_and_Fitness.Models.WorkoutSchedule", b =>
-                {
-                    b.Property<int>("ScheduleID")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Friday")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Monday")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Protein")
+                        .HasColumnType("int");
+
                     b.Property<string>("Saturday")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("State")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Sunday")
@@ -218,15 +152,14 @@ namespace Core_Health_and_Fitness.Migrations
                     b.Property<string>("Wednsday")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ScheduleID");
+                    b.Property<int>("ZipCode")
+                        .HasColumnType("int");
 
-                    b.ToTable("WorkoutSchedule");
+                    b.HasKey("PersonalTrainerId");
 
-                    b.HasData(
-                        new
-                        {
-                            ScheduleID = 1
-                        });
+                    b.HasIndex("IdentityUserId");
+
+                    b.ToTable("PersonalTrainers");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -258,15 +191,15 @@ namespace Core_Health_and_Fitness.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "413b92d6-f7ec-4d69-9a19-5c02451a4603",
-                            ConcurrencyStamp = "9fd39039-9880-45f6-a8a6-b7762945f529",
+                            Id = "ae72d03b-a53d-42d5-ba56-3a666e79e321",
+                            ConcurrencyStamp = "e1aedd37-608e-487e-94b9-64f58f48d208",
                             Name = "Client",
                             NormalizedName = "CLIENT"
                         },
                         new
                         {
-                            Id = "3a2bc270-4e28-4bd8-95c0-09f56892f036",
-                            ConcurrencyStamp = "961ce96a-7201-47ae-85b3-f39c21d73f98",
+                            Id = "bc311535-8a0b-400e-ad7a-2f1cd2c3b8cb",
+                            ConcurrencyStamp = "02c617dd-b91f-4f69-a604-d3083326f5c9",
                             Name = "PersonalTrainer",
                             NormalizedName = "PERSONALTRAINER"
                         });
@@ -443,12 +376,6 @@ namespace Core_Health_and_Fitness.Migrations
 
             modelBuilder.Entity("Core_Health_and_Fitness.Models.Client", b =>
                 {
-                    b.HasOne("Core_Health_and_Fitness.Models.ClientProfile", "ClientProfile")
-                        .WithMany()
-                        .HasForeignKey("ClientProfileId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
                         .WithMany()
                         .HasForeignKey("IdentityUserId");
@@ -462,21 +389,9 @@ namespace Core_Health_and_Fitness.Migrations
 
             modelBuilder.Entity("Core_Health_and_Fitness.Models.PersonalTrainer", b =>
                 {
-                    b.HasOne("Core_Health_and_Fitness.Models.DietPlan", "DietPlan")
-                        .WithMany()
-                        .HasForeignKey("DietPlanID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "IdentityUser")
                         .WithMany()
                         .HasForeignKey("IdentityUserId");
-
-                    b.HasOne("Core_Health_and_Fitness.Models.WorkoutSchedule", "WorkoutSchedule")
-                        .WithMany()
-                        .HasForeignKey("ScheduleID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

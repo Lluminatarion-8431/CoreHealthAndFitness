@@ -32,13 +32,37 @@
                 @Html.DisplayNameFor(model => model.State)
             </th>
             <th>
+                @Html.DisplayNameFor(model => model.Age)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Height)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Weight)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FitnessGoal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StartDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EndDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.WeightGoal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.MedicalProvider)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PastInjuries)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.IdentityUser)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.PersonalTrainer)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ClientProfile)
             </th>
             <th></th>
         </tr>
@@ -65,23 +89,42 @@
                 @Html.DisplayFor(modelItem => item.State)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Age)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Height)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Weight)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FitnessGoal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StartDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EndDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.WeightGoal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MedicalProvider)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PastInjuries)
+            </td>
+            <td>
                 @Html.DisplayFor(modelItem => item.IdentityUser.Id)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.PersonalTrainer.PersonalTrainerId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ClientProfile.ClientProfileId)
-            </td>
-            <td>
                 <a asp-action="Edit" asp-route-id="@item.ClientId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.ClientId">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.ClientId">Delete</a> |
-                <a asp-action="PersonalTrainersList" asp-route-id="@item.ClientId">Personal Trainers List</a> |
-                <a asp-action="ViewWorkoutSchedule" asp-route-id="@item.ClientId">Workout Schedule</a> |
-                <a asp-action="CreateClientProfile" asp-route-id="@item.ClientId">Create Client Profile</a> |
-                <a asp-action="Map" asp-route-id="@item.ClientId">Personal Trainer Location</a> |
-                <a asp-action="ViewDietPlan" asp-route-id="@item.ClientId">View Diet Plan</a>
+                <a asp-action="Delete" asp-route-id="@item.ClientId">Delete</a>
             </td>
         </tr>
 }

@@ -45,6 +45,51 @@
                 <span asp-validation-for="State" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="Age" class="control-label"></label>
+                <input asp-for="Age" class="form-control" />
+                <span asp-validation-for="Age" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Height" class="control-label"></label>
+                <input asp-for="Height" class="form-control" />
+                <span asp-validation-for="Height" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Weight" class="control-label"></label>
+                <input asp-for="Weight" class="form-control" />
+                <span asp-validation-for="Weight" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FitnessGoal" class="control-label"></label>
+                <input asp-for="FitnessGoal" class="form-control" />
+                <span asp-validation-for="FitnessGoal" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label"></label>
+                <input asp-for="StartDate" class="form-control" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label"></label>
+                <input asp-for="EndDate" class="form-control" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="WeightGoal" class="control-label"></label>
+                <input asp-for="WeightGoal" class="form-control" />
+                <span asp-validation-for="WeightGoal" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="MedicalProvider" class="control-label"></label>
+                <input asp-for="MedicalProvider" class="form-control" />
+                <span asp-validation-for="MedicalProvider" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PastInjuries" class="control-label"></label>
+                <input asp-for="PastInjuries" class="form-control" />
+                <span asp-validation-for="PastInjuries" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <label asp-for="IdentityUserId" class="control-label"></label>
                 <select asp-for="IdentityUserId" class="form-control" asp-items="ViewBag.IdentityUserId"></select>
                 <span asp-validation-for="IdentityUserId" class="text-danger"></span>
@@ -53,11 +98,6 @@
                 <label asp-for="PersonalTrainerId" class="control-label"></label>
                 <select asp-for="PersonalTrainerId" class="form-control" asp-items="ViewBag.PersonalTrainerId"></select>
                 <span asp-validation-for="PersonalTrainerId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="ClientProfileId" class="control-label"></label>
-                <select asp-for="ClientProfileId" class="form-control" asp-items="ViewBag.ClientProfileId"></select>
-                <span asp-validation-for="ClientProfileId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
