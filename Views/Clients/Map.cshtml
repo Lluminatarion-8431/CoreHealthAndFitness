@@ -48,19 +48,19 @@
             defer></script>
     <script type="text/javascript">
     let map;
-    var longitude = @Html.DisplayFor(model => model.Long);
-    var latitude = @Html.DisplayFor(model => model.Lat);
+    var long = @Html.DisplayFor(model => model.Long);
+    var lat = @Html.DisplayFor(model => model.Lat);
 
 
     function initMap() {
         var mapOptions = {
             zoom: 15,
-            center: new google.maps.LatLng(latitude, longitude),
+            center: new google.maps.LatLng(lat, long),
             mapTypeId: 'roadmap'
         };
         var map = new google.maps.Map(document.getElementById('map'), mapOptions);
 
-        var trainerHomePosition = { lat: latitude, lng: longitude };
+        var trainerHomePosition = { lat: latitude, long: longitude };
         var marker = new google.maps.Marker({
             position: trainerHomePosition,
             map: map,
