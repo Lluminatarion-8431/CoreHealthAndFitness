@@ -8,16 +8,21 @@ using Microsoft.EntityFrameworkCore;
 using Core_Health_and_Fitness.Data;
 using Core_Health_and_Fitness.Models;
 using System.Security.Claims;
+using Core_Health_and_Fitness.Services;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Core_Health_and_Fitness.Controllers
 {
+    [Authorize(Roles = "PersonalTrainer")]
     public class PersonalTrainersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly GeocodingService _geocodingService;
 
-        public PersonalTrainersController(ApplicationDbContext context)
+        public PersonalTrainersController(ApplicationDbContext context, GeocodingService geocodingService)
         {
             _context = context;
+            _geocodingService = geocodingService;
         }
 
         // GET: PersonalTrainers
@@ -78,7 +83,9 @@ namespace Core_Health_and_Fitness.Controllers
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 personalTrainer.IdentityUserId = userId;
 
-                _context.Add(personalTrainer);
+                var personalTrainerWithLatLong = await _geocodingService.GetGeocoding(personalTrainer);
+
+                _context.Add(personalTrainerWithLatLong);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }

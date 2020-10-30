@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 using Core_Health_and_Fitness.ActionFilters;
+using Core_Health_and_Fitness.Services;
 
 namespace Core_Health_and_Fitness
 {
@@ -34,11 +35,13 @@ namespace Core_Health_and_Fitness
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
+            //added IdentityRole service to AddIdentity()
             services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
 
+            //global action filter configuration
             services.AddScoped<ClaimsPrincipal>(s =>
                    s.GetService<IHttpContextAccessor>().HttpContext.User);
             services.AddControllers(config =>
@@ -46,6 +49,8 @@ namespace Core_Health_and_Fitness
                 config.Filters.Add(typeof(GlobalRouting));
             });
 
+            //google geocoding API service
+            services.AddTransient<GeocodingService>();
 
             services.AddControllersWithViews();
             services.AddRazorPages();

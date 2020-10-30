@@ -9,9 +9,11 @@ using Core_Health_and_Fitness.Data;
 using Core_Health_and_Fitness.Models;
 using System.Security.Claims;
 using GoogleMaps.LocationServices;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Core_Health_and_Fitness.Controllers
 {
+    [Authorize(Roles = "CLient")]
     public class ClientsController : Controller
     {
         private readonly ApplicationDbContext _context;
