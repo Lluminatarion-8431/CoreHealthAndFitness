@@ -17,7 +17,7 @@ namespace Core_Health_and_Fitness.Services
         }
         public string GetGeocodingURL(PersonalTrainer personalTrainer)
         {
-            return $"https://maps.googleapis.com/maps/api/js?address={personalTrainer.AddressLine}+{personalTrainer.State}+{personalTrainer.ZipCode}+&key=" + PrivateAPIKey.GoogleAPIKey; /*{API Key}&callback=initMap*/
+            return $"https://maps.googleapis.com/maps/api/geocode/json?address={personalTrainer.AddressLine}+{personalTrainer.State}+{personalTrainer.ZipCode}&key=" + PrivateAPIKey.GoogleAPIKey; /*{API Key}&callback=initMap*/
         }
 
         public async Task<PersonalTrainer> GetGeocoding(PersonalTrainer personalTrainer)

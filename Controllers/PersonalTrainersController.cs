@@ -28,7 +28,7 @@ namespace Core_Health_and_Fitness.Controllers
         // GET: PersonalTrainers
         public async Task<IActionResult> Index()
         {
-            //var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             //var personalTrainer = _context.PersonalTrainers.Where(c => c.IdentityUserId == userId).SingleOrDefault();
 
@@ -57,6 +57,7 @@ namespace Core_Health_and_Fitness.Controllers
                 .Include(p => p.IdentityUser)
                 .Include(c => c.PersonalTrainer)
                 .FirstOrDefaultAsync(m => m.ClientId == id);
+
             if (client == null)
             {
                 return NotFound();
@@ -88,6 +89,7 @@ namespace Core_Health_and_Fitness.Controllers
 
                 //var personalTrainerWithLatLong = await _geocodingService.GetGeocoding(personalTrainer);
 
+                //_context.Add(personalTrainerWithLatLong);
                 _context.Add(personalTrainer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

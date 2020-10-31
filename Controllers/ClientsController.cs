@@ -26,6 +26,8 @@ namespace Core_Health_and_Fitness.Controllers
         // GET: Clients
         public async Task<IActionResult> Index()
         {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
             var applicationDbContext = _context.Clients.Include(c => c.IdentityUser).Include(c => c.PersonalTrainer);
             return View(await applicationDbContext.ToListAsync());
         }
