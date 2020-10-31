@@ -59,7 +59,7 @@ namespace Core_Health_and_Fitness.Controllers
 
             Client client = new Client()
             {
-                PersonalTrainers = new SelectList(personalTrainers, "Id", "Name")
+                PersonalTrainers = new SelectList(personalTrainers, "PersonalTrainerId", "FirstName", "LastName")
             };
 
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
@@ -98,6 +98,7 @@ namespace Core_Health_and_Fitness.Controllers
             }
 
             var client = await _context.Clients.FindAsync(id);
+            client.PersonalTrainers = new SelectList(_context.PersonalTrainers.ToList(), "PersonalTrainerId", "FirstName");
             if (client == null)
             {
                 return NotFound();
@@ -123,6 +124,7 @@ namespace Core_Health_and_Fitness.Controllers
             {
                 try
                 {
+                    new SelectList(_context.PersonalTrainers.ToList(), "PersonalTrainerId", "FirstName");
                     _context.Update(client);
                     await _context.SaveChangesAsync();
                 }

@@ -55,6 +55,7 @@ namespace Core_Health_and_Fitness.Controllers
 
             var client = await _context.Clients
                 .Include(p => p.IdentityUser)
+                .Include(c => c.PersonalTrainer)
                 .FirstOrDefaultAsync(m => m.ClientId == id);
             if (client == null)
             {

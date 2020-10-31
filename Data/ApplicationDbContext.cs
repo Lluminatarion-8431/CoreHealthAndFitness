@@ -30,6 +30,11 @@ namespace Core_Health_and_Fitness.Data
                     Name = "PersonalTrainer",
                     NormalizedName = "PERSONALTRAINER"
                 }
+                // builder.Entity<PersonalTrainer>()
+                //.HasData(new PersonalTrainer
+                //{
+                //    FirstName = "PersonalTrainer",
+                //}
             );
         }
 
